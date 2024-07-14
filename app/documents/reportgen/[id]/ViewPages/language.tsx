@@ -57,23 +57,20 @@ export function PageToJi(pages: Pages): string {
         Array.isArray(element.element.content)
       ) {
         if (element.element.type == ElementType.CODE) {
-          let content: string | string[] = element.element.content.map(
-            (line) => {
-              line = line.replaceAll("\\", "\\\\");
-              line = line.replaceAll("\\n", "");
-              return line;
-            }
-          );
-          console.log(content);
-          content = content.join("\\n");
-          content = replaceBracesWithContainers(content);
+          const paragraphs = element.element.content.map((line, index) => {
+            let content = replaceBracesWithContainers(line);
+            if (line != "") return `${returnBlankSpace(2)}"|${content}|",`;
+          });
           const verbatim = `${returnBlankSpace(
             2
-          )}"\\begin{lstlisting}\n|${content}|\n${returnBlankSpace(
+          )}"\\begin{lstlisting}\n${paragraphs}\n${returnBlankSpace(
             2
           )}\\end{lstlisting}"`;
           outputPage.elements.push(
             `${returnBlankSpace(1)}paragraphs: [\n${verbatim}\n];`
+          );
+          outputPage.elements.push(
+            `${returnBlankSpace(1)}${name}: [\n${paragraphs.join("\n")}\n];`
           );
         } else {
           const paragraphs = element.element.content.map((line, index) => {
