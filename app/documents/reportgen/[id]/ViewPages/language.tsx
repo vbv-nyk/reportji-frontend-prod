@@ -17,8 +17,14 @@ function returnBlankSpace(times: number): string {
 }
 
 function replaceBracesWithContainers(content: string) {
-  content = content.replaceAll(/\{/g, (match) => `\\ocurly{}`);
-  content = content.replaceAll(/\}/g, (match) => `\\ccurly{}`);
+  content = content.replace(/(\{|\})/g, (match) => {
+    if (match === "{") {
+      return "\\ocurly{}";
+    } else if (match === "}") {
+      return "\\ccurly{}";
+    }
+    return match;
+  });
   content = content.replaceAll(/\[/g, (match) => `\\osquare{}`);
   content = content.replaceAll(/\]/g, (match) => `\\csquare{}`);
   content = content.replaceAll(/\"/g, (match) => `\\quotes{}`);
@@ -57,20 +63,22 @@ export function PageToJi(pages: Pages): string {
         Array.isArray(element.element.content)
       ) {
         if (element.element.type == ElementType.CODE) {
-          const paragraphs = element.element.content.map((line, index) => {
-            let content = replaceBracesWithContainers(line);
-            if (line != "") return `${returnBlankSpace(2)}"|${content}|",`;
-          });
+          let content: string | string[] = element.element.content.map(
+            (line) => {
+            line = line.replaceAll("\\n", "\\textbackslash n")
+              return line;
+            }
+          );
+          console.log(content);
+          content = content.join("\\\\");
+          content = replaceBracesWithContainers(content);
           const verbatim = `${returnBlankSpace(
             2
-          )}"\\begin{lstlisting}\n${paragraphs}\n${returnBlankSpace(
+          )}"\\begin{lstlisting}\n|${content}|\n${returnBlankSpace(
             2
           )}\\end{lstlisting}"`;
           outputPage.elements.push(
             `${returnBlankSpace(1)}paragraphs: [\n${verbatim}\n];`
-          );
-          outputPage.elements.push(
-            `${returnBlankSpace(1)}${name}: [\n${paragraphs.join("\n")}\n];`
           );
         } else {
           const paragraphs = element.element.content.map((line, index) => {
