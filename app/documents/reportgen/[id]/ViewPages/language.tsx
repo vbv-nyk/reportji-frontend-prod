@@ -66,22 +66,7 @@ export function PageToJi(pages: Pages): string {
           );
           console.log(content);
           content = content.join("\\\\");
-          content = content.replaceAll("%", "\\%");
-          content = content.replaceAll("$", "\\$");
-          content = content.replaceAll("#", "\\#");
-          content = content.replaceAll("&", "\\&");
-          content = content.replaceAll("_", "\\_");
-          content = content.replaceAll("{", (match) => {
-            return ` \\curly{`;
-          });
-          content = content.replaceAll(
-            /\"(.*?)\"/g,
-            (match) => ` \\quotes{${match.substring(1, match.length - 1)}} `
-          );
-          content = content.replaceAll("[]", " \\square{} ");
-          content = content.replaceAll(/\[(.*?)\]/g, (match) => {
-            return ` \\square{${match.substring(1, match.length - 1)}} `;
-          });
+          content = replaceBracesWithContainers(content);
           const verbatim = `${returnBlankSpace(
             2
           )}"\\begin{lstlisting}\n|${content}|\n${returnBlankSpace(
