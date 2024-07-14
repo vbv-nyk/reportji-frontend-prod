@@ -18,22 +18,33 @@ function returnBlankSpace(times: number): string {
 
 function replaceBracesWithContainers(content: string) {
   content = content.replaceAll(
-    /\{.*\}/g,
-    (match) => `\\curly{${match.substring(1, match.length - 1)}}`
+    /\{/g,
+    (match) => `\\ocurly{}`
   );
   content = content.replaceAll(
-    /\[.*\]/g,
-    (match) => `\\square{${match.substring(1, match.length - 1)}}`
+    /\}/g,
+    (match) => `\\ccurly{}`
   );
   content = content.replaceAll(
-    /\".*\"/g,
-    (match) => `\\quotes{${match.substring(1, match.length - 1)}}`
+    /\[/g,
+    (match) => `\\osquare{}`
   );
   content = content.replaceAll(
-    /\(.*\)/g,
-    (match) => `\\round{${match.substring(1, match.length - 1)}}`
+    /\]/g,
+    (match) => `\\csquare{}`
   );
-  console.log(content);
+  content = content.replaceAll(
+    /\"/g,
+    (match) => `\\quotes{}`
+  );
+  content = content.replaceAll(
+    /\(/g,
+    (match) => `\\oround{}`
+  );
+  content = content.replaceAll(
+    /\)/g,
+    (match) => `\\cround{}`
+  );
   return content;
 }
 export function PageToJi(pages: Pages): string {
