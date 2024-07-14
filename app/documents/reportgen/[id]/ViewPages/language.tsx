@@ -65,7 +65,7 @@ export function PageToJi(pages: Pages): string {
             }
           );
           console.log(content);
-          content = content.join("\\\\");
+          content = content.join("\\n");
           content = replaceBracesWithContainers(content);
           const verbatim = `${returnBlankSpace(
             2
