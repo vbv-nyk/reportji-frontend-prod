@@ -274,8 +274,8 @@ export function TakeInput(props: Step2Props) {
           defaultValue={currentType}
         >
           <option value="Title">Title</option>
-          <option value="Subtitle">Subtitle</option>
-          <option value="Heading">Heading</option>
+          {/* <option value="Subtitle">Subtitle</option> */}
+          {/* <option value="Heading">Heading</option> */}
           <option value="Author">Author</option>
           <option value="Date">Date</option>
           <option value="Paragraphs">Paragraphs</option>
