@@ -100,7 +100,7 @@ export function GetCurrentInput(props: GetCurrentInputProps) {
           <textarea
             ref={textAreaElement}
             defaultValue={Array.isArray(content) ? content.join("\n") : content}
-            className="w-full h-full font-semibold rounded-lg p-4 resize-none"
+            className="w-full h-[400px] font-semibold rounded-lg p-4 resize-none"
             placeholder="Enter your data, every new paragraph/item starts at a new line."
           />
         </div>
