@@ -7,15 +7,15 @@ import { BACKEND_URL } from "../constants";
 
 export default function Landing() {
   return (
-    <div className="flex flex-col bg-[#01162B] h-screen">
+    <div className="flex flex-col bg-[#01162B] h-screen max-h-screen">
       <div className="flex h-max items-center justify-around">
         <Logo2 />
         <Navbar />
       </div>
       <div className="md:h-full md:grid md:grid-cols-[1fr_1fr]">
-        <div className="flex flex-col gap-8 justify-center items-center ">
+        <div className="flex flex-col justify-center items-center ">
           <img
-            className="max-h-[400px] lg:hidden"
+            className="max-h-[300px] lg:hidden"
             src="images/laptop-report.webp"
           ></img>
           <div className="flex flex-col gap-4 ">
@@ -35,7 +35,7 @@ export default function Landing() {
             </Link>
           </div>
         </div>
-        <div className="hidden md:inline">
+        <div className="hidden md:inline md:self-center ">
           <img src="/images/big_man.png"></img>          
         </div>
       </div>

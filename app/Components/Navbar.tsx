@@ -42,20 +42,20 @@ export default function Navbar() {
     getUserData();
   }, []);
   return (
-    <div className="flex flex-wrap text-center text-sm justify-center gap-2 px-2 items-center md:px-0 font-extrabold text-white uppercase md:text-md md:justify-evenly md:w-full">
-      {!username && <button className="flex-grow uppercase hover:text-lg" onClick={login}>
+    <div className="flex flex-wrap text-center text-md justify-end content-start gap-5 px-2 items-center md:px-0 font-extrabold text-white uppercase md:text-md ">
+      {!username && <button className="uppercase " onClick={login}>
         {`Sign In`}
       </button>}
-      {username && <button className="flex-grow uppercase hover:text-lg" >
+      {username && <button className="uppercase " >
         {username}
       </button>}
-      <Link className="flex-grow uppercase hover:text-lg" href={"/documents"}>
+      <Link className="uppercase " href={"/documents"}>
         <button>Documents</button>
       </Link>
-      <Link className="flex-grow uppercase hover:text-lg"href={'/about'}>
+      <Link className="uppercase "href={'/about'}>
       <button >About Us</button>
       </Link>
-      <Link  href={"https://github.com/vbv-nyk/reportji-markup"} className="hidden hover:underline hover:underline-offset-4 sm:inline flex-grow uppercase hover:text-lg">
+      <Link  href={"https://github.com/vbv-nyk/reportji-markup"} className="hidden hover:underline hover:underline-offset-4 sm:inline flex-grow uppercase ">
         Github
       </Link>
     </div>
