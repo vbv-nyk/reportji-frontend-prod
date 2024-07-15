@@ -56,6 +56,13 @@ export function PageToJi(pages: Pages): string {
       ) {
         let content = replaceBracesWithContainers(element.element.content);
         console.log(content);
+        content = content
+          .split(" ")
+          .map((word) => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+          )
+          .join(" ");
+        console.log(content);
         const currentElement = `${returnBlankSpace(1)}${name}: "${content}";`;
         outputPage.elements.push(currentElement);
       } else if (
@@ -65,7 +72,7 @@ export function PageToJi(pages: Pages): string {
         if (element.element.type == ElementType.CODE) {
           let content: string | string[] = element.element.content.map(
             (line) => {
-            line = line.replaceAll("\\n", "\\textbackslash n")
+              line = line.replaceAll("\\n", "\\textbackslash n");
               return line;
             }
           );
