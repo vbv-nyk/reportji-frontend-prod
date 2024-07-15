@@ -19,9 +19,9 @@ function returnBlankSpace(times: number): string {
 function replaceBracesWithContainers(content: string) {
   content = content.replace(/(\{|\})/g, (match) => {
     if (match === "{") {
-      return "\\ocurly{}";
+      return "\\ocurly ";
     } else if (match === "}") {
-      return "\\ccurly{}";
+      return "\\ccurly ";
     }
     return match;
   });
