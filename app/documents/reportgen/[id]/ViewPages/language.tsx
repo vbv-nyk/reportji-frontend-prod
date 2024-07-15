@@ -25,11 +25,11 @@ function replaceBracesWithContainers(content: string) {
     }
     return match;
   });
-  content = content.replaceAll(/\[/g, (match) => `\\osquare{}`);
-  content = content.replaceAll(/\]/g, (match) => `\\csquare{}`);
-  content = content.replaceAll(/\"/g, (match) => `\\quotes{}`);
-  content = content.replaceAll(/\(/g, (match) => `\\oround{}`);
-  content = content.replaceAll(/\)/g, (match) => `\\cround{}`);
+  content = content.replaceAll(/\[/g, (match) => `\\osquare `);
+  content = content.replaceAll(/\]/g, (match) => `\\csquare `);
+  content = content.replaceAll(/\"/g, (match) => `\\quotes `);
+  content = content.replaceAll(/\(/g, (match) => `\\oround `);
+  content = content.replaceAll(/\)/g, (match) => `\\cround `);
   content = content.replaceAll("%", "\\%");
   content = content.replaceAll("$", "\\$");
   content = content.replaceAll("#", "\\#");
