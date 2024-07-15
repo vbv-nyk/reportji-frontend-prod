@@ -88,11 +88,13 @@ export function PageToJi(pages: Pages): string {
             `${returnBlankSpace(1)}paragraphs: [\n${verbatim}\n];`
           );
         } else {
-          const paragraphs = element.element.content.map((line, index) => {
+          const nonEmptyParagraph = element.element.content.filter(line => {
+            return line !== ""
+          })
+          const paragraphs = nonEmptyParagraph.map((line, index) => {
             let content = replaceBracesWithContainers(line);
-            if (content != "") return `${returnBlankSpace(2)}"${content}",`;
+            return `${returnBlankSpace(2)}"${content}",`;
           });
-          console.log(paragraphs);
           outputPage.elements.push(
             `${returnBlankSpace(1)}${name}: [\n${paragraphs.join("\n")}\n];`
           );
