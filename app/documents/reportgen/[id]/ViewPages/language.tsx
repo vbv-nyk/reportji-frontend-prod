@@ -70,7 +70,10 @@ export function PageToJi(pages: Pages): string {
         Array.isArray(element.element.content)
       ) {
         if (element.element.type == ElementType.CODE) {
-          let content: string | string[] = element.element.content.map(
+          const nonEmptyParagraph = element.element.content.filter(line => {
+            return line !== ""
+          })
+          let content: string | string[] = nonEmptyParagraph.map(
             (line) => {
               line = line.replaceAll("\\n", "\\textbackslash n");
               line = replaceBracesWithContainers(line);
