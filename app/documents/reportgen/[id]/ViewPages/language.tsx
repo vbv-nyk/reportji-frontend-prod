@@ -37,6 +37,28 @@ function replaceBracesWithContainers(content: string) {
   content = content.replaceAll("_", "\\_");
   return content;
 }
+
+function replaceBracesWithContainersCODE(content: string) {
+  content = content.replace(/(\{|\})/g, (match) => {
+    if (match === "{") {
+      return "|\\ocurly |";
+    } else if (match === "}") {
+      return "|\\ccurly |";
+    }
+    return match;
+  });
+  content = content.replaceAll(/\[/g, (match) => `|\\osquare |`);
+  content = content.replaceAll(/\]/g, (match) => `|\\csquare |`);
+  content = content.replaceAll(/\"/g, (match) => `|\\quotes |`);
+  content = content.replaceAll(/\(/g, (match) => `|\\oround |`);
+  content = content.replaceAll(/\)/g, (match) => `|\\cround |`);
+  // content = content.replaceAll("%", "\\%");
+  // content = content.replaceAll("$", "\\$");
+  // content = content.replaceAll("#", "\\#");
+  // content = content.replaceAll("&", "\\&");
+  // content = content.replaceAll("_", "\\_");
+  return content;
+}
 export function PageToJi(pages: Pages): string {
   const output: OutputMarkup[] = [];
 
@@ -72,14 +94,21 @@ export function PageToJi(pages: Pages): string {
             return line !== "";
           });
           const paragraphs = nonEmptyParagraph.map((line, index) => {
-            let content = replaceBracesWithContainers(line);
-            return `${content}`;
+            let content = replaceBracesWithContainersCODE(line);
+            return `${returnBlankSpace(2)}"${content}",`;
           });
-          let content = paragraphs.join(" \\par ");
-           content = (`${returnBlankSpace(2)}"\\codelst{ \\par ${content} }"`)
-          console.log(content)
+          const total = paragraphs.length;
+          paragraphs[0] = `${returnBlankSpace(2)}"\\begin{lstlisting}${paragraphs[0].slice(
+            paragraphs[0].indexOf('"') + 1
+          )}`;
+          const last_line_length = paragraphs[total - 1].length;
+          paragraphs[total - 1] = `${paragraphs[total - 1].substring(
+            0,
+            last_line_length - 2
+          )}\n\\end{lstlisting}"`;
+          console.log(paragraphs.join("\n"));
           outputPage.elements.push(
-            `${returnBlankSpace(1)}paragraphs: [\n${content}\n];`
+            `${returnBlankSpace(1)}paragraphs: [\n${paragraphs.join("\n")}\n];`
           );
         } else {
           const nonEmptyParagraph = element.element.content.filter((line) => {
@@ -89,7 +118,7 @@ export function PageToJi(pages: Pages): string {
             let content = replaceBracesWithContainers(line);
             return `${returnBlankSpace(2)}"${content}",`;
           });
-           console.log(paragraphs.join("\n"))
+          console.log(paragraphs.join("\n"));
           outputPage.elements.push(
             `${returnBlankSpace(1)}${name}: [\n${paragraphs.join("\n")}\n];`
           );
