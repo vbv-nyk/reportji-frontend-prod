@@ -75,7 +75,7 @@ export function PageToJi(pages: Pages): string {
             let content = replaceBracesWithContainers(line);
             return `${returnBlankSpace(2)}"|${content}|",`;
           });
-          let code = `${returnBlankSpace(1)}"\\begin{lstlisting}"\n${paragraphs.join("\n")}\n${returnBlankSpace(1)}"\\end{lstlistings}"`
+          let code = `${returnBlankSpace(1)}"\\begin{lstlisting}"\n${paragraphs.join("\n")}\n${returnBlankSpace(1)}"\\end{lstlisting}"`
           console.log(code)
           outputPage.elements.push(
             `${returnBlankSpace(1)}paragraphs: [\n${code}\n];`
