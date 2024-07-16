@@ -73,12 +73,11 @@ export function PageToJi(pages: Pages): string {
           let content: string | string[] = element.element.content.map(
             (line) => {
               line = line.replaceAll("\\n", "\\textbackslash n");
+              line = replaceBracesWithContainers(line);
               return line;
             }
           );
-          console.log(content);
-          content = content.join("\\newline ");
-          content = replaceBracesWithContainers(content);
+          content = content.join("\n");
           const verbatim = `${returnBlankSpace(
             2
           )}"\\begin{lstlisting}\n|${content}|\n${returnBlankSpace(
