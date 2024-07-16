@@ -148,7 +148,7 @@ export default function ViewPages(props: ReportGenCommonProps) {
         <ButtonYellow2 onClick={newChapter} content={"Add Page"} />
         {pages.length != 0 && (
           <div className="flex flex-col gap-2">
-          <input ref={doc_ref} value={"Report"} placeholder="Enter the name of your report" className="p-2 rounded-xl text-center"/>
+          <input ref={doc_ref} defaultValue={"Report"} placeholder="Enter the name of your report" className="p-2 rounded-xl text-center"/>
           <ButtonYellow2
             onClick={generateReport}
             content={"Give Me My Report!!!"}

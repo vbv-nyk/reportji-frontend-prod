@@ -58,9 +58,7 @@ export function PageToJi(pages: Pages): string {
         console.log(content);
         content = content
           .split(" ")
-          .map((word) => 
-            word.charAt(0).toUpperCase() + word.slice(1)
-          )
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(" ");
         console.log(content);
         const currentElement = `${returnBlankSpace(1)}${name}: "${content}";`;
@@ -70,33 +68,27 @@ export function PageToJi(pages: Pages): string {
         Array.isArray(element.element.content)
       ) {
         if (element.element.type == ElementType.CODE) {
-          const nonEmptyParagraph = element.element.content.filter(line => {
-            return line !== ""
-          })
-          let content: string | string[] = nonEmptyParagraph.map(
-            (line) => {
-              line = line.replaceAll("\\n", "\\textbackslash n");
-              line = replaceBracesWithContainers(line);
-              return line;
-            }
-          );
-          content = content.join("\n");
-          const verbatim = `${returnBlankSpace(
-            2
-          )}"\\begin{lstlisting}\n|${content}|\n${returnBlankSpace(
-            2
-          )}\\end{lstlisting}"`;
+          const nonEmptyParagraph = element.element.content.filter((line) => {
+            return line !== "";
+          });
+          let paragraphs = nonEmptyParagraph.map((line, index) => {
+            let content = replaceBracesWithContainers(line);
+            return `${returnBlankSpace(2)}"|${content}|",`;
+          });
+          let code = `${returnBlankSpace(1)}"\\begin{lstlisting}"\n${paragraphs.join("\n")}\n${returnBlankSpace(1)}"\\end{lstlistings}"`
+          console.log(code)
           outputPage.elements.push(
-            `${returnBlankSpace(1)}paragraphs: [\n${verbatim}\n];`
+            `${returnBlankSpace(1)}paragraphs: [\n${code}\n];`
           );
         } else {
-          const nonEmptyParagraph = element.element.content.filter(line => {
-            return line !== ""
-          })
+          const nonEmptyParagraph = element.element.content.filter((line) => {
+            return line !== "";
+          });
           const paragraphs = nonEmptyParagraph.map((line, index) => {
             let content = replaceBracesWithContainers(line);
             return `${returnBlankSpace(2)}"${content}",`;
           });
+           console.log(paragraphs.join("\n"))
           outputPage.elements.push(
             `${returnBlankSpace(1)}${name}: [\n${paragraphs.join("\n")}\n];`
           );
