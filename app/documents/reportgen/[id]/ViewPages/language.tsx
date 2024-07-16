@@ -95,7 +95,7 @@ export function PageToJi(pages: Pages): string {
           });
           const paragraphs = nonEmptyParagraph.map((line, index) => {
             let content = replaceBracesWithContainersCODE(line);
-            return `${returnBlankSpace(2)}"${content}",`;
+            return `${content}`;
           });
           const total = paragraphs.length;
           paragraphs[0] = `${returnBlankSpace(2)}"\\begin{lstlisting}${paragraphs[0].slice(
