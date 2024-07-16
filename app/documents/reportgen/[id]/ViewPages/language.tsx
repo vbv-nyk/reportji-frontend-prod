@@ -73,10 +73,10 @@ export function PageToJi(pages: Pages): string {
           });
           const paragraphs = nonEmptyParagraph.map((line, index) => {
             let content = replaceBracesWithContainers(line);
-            return `${returnBlankSpace(2)}${content}`;
+            return `${content}`;
           });
           let content = paragraphs.join("\\par");
-           content = (`"\n\\codelst{${content}}"`)
+           content = (`${returnBlankSpace(2)}"\\codelst{${content}}"`)
           console.log(content)
           outputPage.elements.push(
             `${returnBlankSpace(1)}paragraphs: [\n${content}\n];`
