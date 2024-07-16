@@ -75,7 +75,14 @@ export function PageToJi(pages: Pages): string {
             let content = replaceBracesWithContainers(line);
             return `${returnBlankSpace(2)}"|${content}|",`;
           });
-          let code = `${returnBlankSpace(1)}"\\begin{lstlisting}"\n${paragraphs.join("\n")}\n${returnBlankSpace(1)}"\\end{lstlisting}"`
+          const total = paragraphs.length;
+          console.log(paragraphs[0])
+          console.log(paragraphs[0].slice(1));
+          paragraphs[0] = `"\\begin{lstlisting}\n${paragraphs[0].slice(paragraphs[0].indexOf("\"") + 1)}`;
+          const last_line_length = paragraphs[total - 1].length;
+          paragraphs[total - 1] = `${paragraphs[total - 1].substring(0, last_line_length - 2)}\\end{lstlisting}"`;
+          console.log(paragraphs.join("\n"))
+          let code = `${returnBlankSpace(1)}${paragraphs.join("\n")}${returnBlankSpace(1)}`
           console.log(code)
           outputPage.elements.push(
             `${returnBlankSpace(1)}paragraphs: [\n${code}\n];`
