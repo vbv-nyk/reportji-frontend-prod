@@ -98,7 +98,7 @@ export function PageToJi(pages: Pages): string {
             return `${returnBlankSpace(2)}"${content}",`;
           });
           const total = paragraphs.length;
-          paragraphs[0] = `${returnBlankSpace(2)}"\\begin{lstlisting}${paragraphs[0].slice(
+          paragraphs[0] = `${returnBlankSpace(2)}"\\begin{lstlisting}\n${paragraphs[0].slice(
             paragraphs[0].indexOf('"') + 1
           )}`;
           const last_line_length = paragraphs[total - 1].length;
