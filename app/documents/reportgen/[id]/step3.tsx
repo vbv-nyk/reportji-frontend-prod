@@ -31,7 +31,7 @@ export default function Step3(props: ReportGenCommonProps) {
       });
       const base64PDF = data.data.CreatePDF.pdf;
       console.log(data);
-      setPdfData(base64PDF);
+      setPdfData(`${base64PDF}?time=${Date.now()}`);
     } catch (e) {
       console.error("Error occured", e);
     }
