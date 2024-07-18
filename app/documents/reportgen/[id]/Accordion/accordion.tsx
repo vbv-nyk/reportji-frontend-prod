@@ -66,16 +66,12 @@ export default function Accordion(props: Step2Props) {
     });
 
   function onDragEnd(result: DropResult) {
-    const pageElementsClone = page.elements.map(page=>page);
-    const {destination, source, draggableId} = result;
-    
-    if(!destination) return;
-    if(destination.index == source.index) return;
-    
-    [pageElementsClone[source.index], pageElementsClone[destination.index]] = [pageElementsClone[destination.index], pageElementsClone[source.index]];
-    
-    
-    setPage({...page,elements: pageElementsClone});
+    const { destination, source } = result;
+    if (!destination || destination.index === source.index) return;
+    const pageElementsClone = Array.from(page.elements);
+    const [movedItem] = pageElementsClone.splice(source.index, 1);
+    pageElementsClone.splice(destination.index, 0, movedItem);
+    setPage({ ...page, elements: pageElementsClone });
   }
   return (
     <div>
@@ -83,7 +79,11 @@ export default function Accordion(props: Step2Props) {
         <Droppable droppableId="UniqueID2">
           {(provided) => {
             return (
-              <div className="flex flex-col gap-8 rounded-lg w-full" ref={provided.innerRef} {...provided.droppableProps}>
+              <div
+                className="flex flex-col gap-8 rounded-lg w-full"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
                 {elementsJSX(provided)}
               </div>
             );

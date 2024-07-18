@@ -52,9 +52,9 @@ export default function Navbar() {
       <Link className="uppercase " href={"/documents"}>
         <button>Documents</button>
       </Link>
-      <Link className="uppercase "href={'/about'}>
-      <button >About Us</button>
-      </Link>
+      {/* <Link className="uppercase "href={'/about'}> */}
+      {/* <button >About Us</button> */}
+      {/* </Link> */}
       <Link  href={"https://github.com/vbv-nyk/reportji-markup"} className="hidden hover:underline hover:underline-offset-4 sm:inline flex-grow uppercase ">
         Github
       </Link>
