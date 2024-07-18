@@ -122,17 +122,12 @@ export default function ViewPages(props: ReportGenCommonProps) {
   }
   function onDragEnd(result: DropResult) {
     const pagesClone = pages.map((page) => page);
-    const { destination, source, draggableId } = result;
-
-    if (!destination) return;
-    if (destination.index == source.index) return;
-
-    [pagesClone[source.index], pagesClone[destination.index]] = [
-      pagesClone[destination.index],
-      pagesClone[source.index],
-    ];
-
-    setPages(pagesClone);
+    const { destination, source } = result;
+    if (!destination || destination.index === source.index) return;
+    const pageElementsClone = Array.from(pages);
+    const [movedItem] = pageElementsClone.splice(source.index, 1);
+    pageElementsClone.splice(destination.index, 0, movedItem);
+    setPages(pageElementsClone);
     localStorage.setItem("pages", JSON.stringify(pagesClone));
   }
   return (
