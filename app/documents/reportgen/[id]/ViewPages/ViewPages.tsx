@@ -69,94 +69,83 @@ export default function ViewPages(props: ReportGenCommonProps) {
   }
 
   function getCurrentTemplate() {
-    return `
-    \\documentclass[oneside]{book}\n
-\\usepackage[T1]{fontenc}\n
-\\usepackage[demo]{graphicx}\n
-\\usepackage{grffile}\n
-\\usepackage{tocloft}\n
-\\usepackage{mathptmx}\n
-\\usepackage[a4paper, total={6in, 8in}]{geometry}\n
-\\usepackage{hyperref}\n
-\\usepackage{xcolor}\n
-\\usepackage{titlesec}\n
-\\usepackage{color}\n
-\\usepackage{tabularx}\n
-\\usepackage{listings}\n
-\\usepackage{subcaption}\n
-\\definecolor{myorange}{RGB}{131,59, 12}\n
-\\usepackage{titlesec}\n
-\n
-\\titleformat{\\chapter}[display]\n
-{\\normalfont\\fontsize{16}{22}\\selectfont\\bfseries}\n
-  {\\MakeUppercase{\\chaptertitlename} \\thechapter}\n
-{10pt}\n
-{\\centering\\fontsize{18}{22}\\selectfont}\n
-\\titlespacing*{\\chapter}{0pt}{-20pt}{20pt}\n
-\\usepackage{fancyhdr}\n
-\\pagestyle{fancy}\n
-\\fancyhf{}\n
-\\renewcommand{\\normalsize}{\\fontsize{12}{14}\\selectfont}\n
-\\DeclareUnicodeCharacter{2212}{\\ensuremath{-}}\\newcommand{\\osquare}{[}\n
-\\newcommand{\\csquare}{]}\n
-\\newcommand{\\oround}{(}\n
-\\newcommand{\\cround}{)}\n
-\\newcommand{\\ocurly}{\\text{\\{}}\n
-\\newcommand{\\ccurly}{\\text{\\}}}\n
-\\newcommand{\\quotes}{"}\n
-\\newcommand{\\codelst}[1]{\\lstinline{#1}}\n
-  \\fancyhead[L]{\\color{black}\\fontsize{12}{20}\\selectfont\\bfseries\\textbf{ReportJi}}\n
-\\fancyhead[R]{\\color{black}\\textbf{\\leftmark}}\n
-\\fancyfoot[L]{\\color{black} \\fontsize{12}{20}\\selectfont\\textbf{Department of Computer Science}}\n
-  \\fancyfoot[R]{\\color{black}\\fontsize{12}{20}\\selectfont Page \\thepage}\n
-\\renewcommand{\\headrule}{\\color{myorange}\\hrule height 0.4pt}\n
-\\renewcommand{\\footrule}{\\color{myorange}\\hrule height 0.4pt}\n
-\\fancypagestyle{plain}{\n
-  \\fancyhf{}\n
-  \\fancyhead[L]{\\color{black}\\fontsize{12}{20}\\selectfont\\bfseries\\textbf{ReportJi}}\n
-  \\fancyhead[R]{\\color{black}\\textbf{\\leftmark}}\n
-  \\fancyfoot[L]{\\color{black} \\fontsize{12}{20}\\selectfont\\textbf{Department of Computer Science}}\n
-  \\fancyfoot[R]{\\fontsize{12}{20}\\selectfont \\color{black}Page \\thepage}\n
-  \\renewcommand{\\headrule}{\\color{myorange}\\hrule height 0.4pt}\n
-  \\renewcommand{\\footrule}{\\color{myorange}\\hrule height 0.4pt}\n
-}\n
-\\linespread{1.5}\n
-\\usepackage{float}\n
-\\restylefloat{figure}\n
-\\lstset{\n
-  backgroundcolor=\\color{white},\n
-  basicstyle=\\ttfamily\\color{black},\n
-  escapeinside={||},\n
-  breaklines=true,\n
-  lineskip=2pt,\n
+    return `\\documentclass[oneside]{book}
+\\usepackage[T1]{fontenc}
+\\usepackage[demo]{graphicx}
+\\usepackage{grffile}
+\\usepackage{tocloft}
+\\usepackage{mathptmx}
+\\usepackage[a4paper, total={6in, 8in}]{geometry}
+\\usepackage{hyperref}
+\\usepackage{xcolor}
+\\usepackage{titlesec}
+\\usepackage{color}
+\\usepackage{tabularx}
+\\usepackage{listings}
+\\usepackage{subcaption}
+\\definecolor{myorange}{RGB}{131,59, 12}
+\\usepackage{titlesec}
+
+\\titleformat{\\chapter}[display]
+{\\normalfont\\fontsize{16}{22}\\selectfont\\bfseries}
+  {\\MakeUppercase{\\chaptertitlename} \\thechapter}
+{10pt}
+{\\centering\\fontsize{18}{22}\\selectfont}
+\\titlespacing*{\\chapter}{0pt}{-20pt}{20pt}
+\\usepackage{fancyhdr}
+\\pagestyle{fancy}
+\\fancyhf{}
+\\renewcommand{\\normalsize}{\\fontsize{12}{14}\\selectfont}
+\\DeclareUnicodeCharacter{2212}{\\ensuremath{-}}\\newcommand{\\osquare}{[}
+\\newcommand{\\csquare}{]}
+\\newcommand{\\oround}{(}
+\\newcommand{\\cround}{)}
+\\newcommand{\\ocurly}{\\text{\\{}}
+\\newcommand{\\ccurly}{\\text{\\}}}
+\\newcommand{\\quotes}{"}
+\\newcommand{\\codelst}[1]{\\lstinline{#1}}
+  \\fancyhead[L]{\\color{black}\\fontsize{12}{20}\\selectfont\\bfseries\\textbf{ReportJi}}
+\\fancyhead[R]{\\color{black}\\textbf{\\leftmark}}
+\\fancyfoot[L]{\\color{black} \\fontsize{12}{20}\\selectfont\\textbf{Department of Computer Science}}
+  \\fancyfoot[R]{\\color{black}\\fontsize{12}{20}\\selectfont Page \\thepage}
+\\renewcommand{\\headrule}{\\color{myorange}\\hrule height 0.4pt}
+\\renewcommand{\\footrule}{\\color{myorange}\\hrule height 0.4pt}
+\\fancypagestyle{plain}{
+  \\fancyhf{}
+  \\fancyhead[L]{\\color{black}\\fontsize{12}{20}\\selectfont\\bfseries\\textbf{ReportJi}}
+  \\fancyhead[R]{\\color{black}\\textbf{\\leftmark}}
+  \\fancyfoot[L]{\\color{black} \\fontsize{12}{20}\\selectfont\\textbf{Department of Computer Science}}
+  \\fancyfoot[R]{\\fontsize{12}{20}\\selectfont \\color{black}Page \\thepage}
+  \\renewcommand{\\headrule}{\\color{myorange}\\hrule height 0.4pt}
+  \\renewcommand{\\footrule}{\\color{myorange}\\hrule height 0.4pt}
+}
+\\linespread{1.5}
+\\usepackage{float}
+\\restylefloat{figure}
+\\lstset{
+  backgroundcolor=\\color{white},
+  basicstyle=\\ttfamily\\color{black},
+  escapeinside={||},
+  breaklines=true,
+  lineskip=2pt,
 }
 \\begin{document}
+\\setcounter{page}{0}
+\\tableofcontents
+\\newpage\\listoffigures
+\\clearpage
+\\pagenumbering{arabic}
+\\setcounter{page}{1}
     `;
   }
   async function generateReport() {
     if (!doc_ref.current || !doc_ref.current.value) return;
-    let doc_name = doc_ref.current.value;
-    let inputJi = "";
-    inputJi = `inputJi.concat(${getCurrentTemplate()})\n${PageToJi(pages)}\n\\end{document}}`;
-    console.log(inputJi)
-    const pagesData = PageToJi(pages);
-    inputJi = inputJi.concat("output = {\n}");
-    try {
-      const data = await getReport({
-        variables: {
-          inputJi,
-          name: doc_name,
-          pagesData: JSON.stringify(pages),
-          docID: documentID,
-        },
-      });
-      const { CreateTexFile } = data.data;
-      setOutputData(CreateTexFile.tex);
-      setDocumentID(CreateTexFile.document_id);
-      setCurrentView(CurrentView.REPORT_VIEW);
-    } catch (e) {
-      console.log("Error: ", e);
-    }
+    let inputJi = `${getCurrentTemplate()}\n${PageToJi(
+      pages
+    )}\n\\end{document}}`;
+    setOutputData(inputJi);
+    setDocumentID(0);
+    setCurrentView(CurrentView.REPORT_VIEW);
   }
 
   function PageList(provided: DroppableProvided) {
