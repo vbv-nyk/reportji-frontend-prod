@@ -32,7 +32,10 @@ function parse_date(date: ScalarElement | VectorElement) {
   return markup;
 }
 function parse_paragraphs(paragraphs: ScalarElement | VectorElement) {
-  const markup = `${paragraphs.content}\n`;
+  if(!Array.isArray(paragraphs.content)) return "";
+  
+  const content = paragraphs.content.join("\n");
+  const markup = `${content}\n`;
   return markup;
 }
 function parse_code(paragraphs: ScalarElement | VectorElement) {
