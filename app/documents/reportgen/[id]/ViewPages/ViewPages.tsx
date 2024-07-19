@@ -78,7 +78,6 @@ export default function ViewPages(props: ReportGenCommonProps) {
 \\usepackage[a4paper, total={6in, 8in}]{geometry}
 \\usepackage{hyperref}
 \\usepackage{xcolor}
-\\usepackage{titlesec}
 \\usepackage{color}
 \\usepackage{tabularx}
 \\usepackage{listings}
@@ -142,7 +141,7 @@ export default function ViewPages(props: ReportGenCommonProps) {
     if (!doc_ref.current || !doc_ref.current.value) return;
     let inputJi = `${getCurrentTemplate()}\n${PageToJi(
       pages
-    )}\n\\end{document}}`;
+    )}\n\\end{document}`;
     setOutputData(inputJi);
     setDocumentID(0);
     setCurrentView(CurrentView.REPORT_VIEW);
