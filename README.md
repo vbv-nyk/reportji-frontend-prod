@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+```markdown
+# Reportji Frontend
 
-## Getting Started
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It is designed to help users generate reports easily.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Report Generation:** Create reports by adding content through a user-friendly interface.
+- **File Conversion:** Convert files from one format to another. (Currently links to an external service)
+- **Authentication:** Google OAuth for user login.
+- **Document Management:** Users can view and manage their generated documents.
+- **Dynamic Report Editing:** Users can add, edit, delete and reorder chapters and elements within each chapter.
+- **LaTeX Rendering:** Generates and displays reports in LaTeX format, with a live preview feature.
+- **Drag and Drop:** Allows users to reorder elements using drag and drop functionality.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
+   ```bash
+    clone the repository
+    cd reportji-frontend
+    npm install
+    # or
+    yarn install
+    # or
+    pnpm install
+    # or
+    bun install
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework:** Next.js 14.2.4
+- **Styling:** Tailwind CSS
+- **Data Fetching:** Apollo Client with GraphQL
+- **Drag and Drop:** @hello-pangea/dnd
+- **Code Editor:** react-ace (Ace Editor)
+- **Authentication:** Google OAuth
+- **Icons:** react-icons
+- **Development:** TypeScript
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Environment Variables
+The application uses the following environment variables:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- **`DEVELOPMENT`**: Set to `true` for development, `false` otherwise.
+- **`BACKEND_PORT`**: The port where the backend server is running (default: `4000`).
+- **`IP`**: The IP address of the backend server. Defaults to `localhost` in development and a Tailscale address otherwise.
+- **`BACKEND_URL`**: The full URL of the backend server, constructed from `IP` and `BACKEND_PORT`.
 
-## Deploy on Vercel
+These variables are defined in `/app/constants.tsx`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Project Structure
+
+- **`/app`**: Contains the main application code.
+  - **`/Components`**: Reusable UI components.
+    - **`/Buttons`**: Button components with different styles.
+    - **`/Images`**: Image components (e.g., logos).
+  - **`/documents`**: Pages related to document management and report generation.
+    - **`/reportgen/[id]`**: Dynamic route for report generation.
+      - **`/Accordion`**: Accordion component for displaying and editing report elements.
+      - **`/ViewPages`**: Components for viewing and managing pages.
+      - `common.tsx`: Common components and functions for report generation.
+      - `step1.tsx`: UI for entering chapter names.
+      - `step2.tsx`: UI for adding and editing content.
+      - `step3.tsx`: UI for rendering and editing the LaTeX report.
+      - `types.tsx`: Enum for different views in the report generation process.
+  - **`/choice`**: Page for choosing between report generation and file conversion.
+  - **`/login`**: (Deprecated) Page for user login, now handled by backend Google OAuth.
+  - **`/types`**: TypeScript types for elements and pages.
+  - `constants.tsx`: Defines environment variables.
+  - `globals.css`: Global CSS styles.
+  - `layout.tsx`: Root layout for the application.
+  - `page.tsx`: Home page.
+- **`/public`**: Static assets (images, etc.).
