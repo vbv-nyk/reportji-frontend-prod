@@ -18,7 +18,7 @@ export default function Accordion(props: Step2Props) {
 
   const elementsJSX = (provided: DroppableProvided) =>
     page.elements.map((element, index) => {
-      const elementName = getElementName(element.element.type);
+      const elementName = getElementName((Number(element.element.type)));
       return (
         <Draggable key={index} draggableId={`${index}`} index={index}>
           {(childProvided) => (

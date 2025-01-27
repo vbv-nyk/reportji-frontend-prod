@@ -32,10 +32,7 @@ function parse_date(date: ScalarElement | VectorElement) {
   return markup;
 }
 function parse_paragraphs(paragraphs: ScalarElement | VectorElement) {
-  if(!Array.isArray(paragraphs.content)) return "";
-  
-  const content = paragraphs.content.join("\n");
-  const markup = `${content}\n`;
+  const markup = `${paragraphs.content}\n`;
   return markup;
 }
 function parse_code(paragraphs: ScalarElement | VectorElement) {
@@ -81,7 +78,7 @@ function parse_citations(citations: ScalarElement | VectorElement): string {
   return markup;
 }
 function getElementBasedContent(element: PdfElement): string {
-  switch (element.element.type) {
+  switch (Number(element.element.type)) {
     case ElementType.TITLE:
       return parse_title(element.element);
     case ElementType.SUBTITLE:
@@ -105,6 +102,8 @@ function getElementBasedContent(element: PdfElement): string {
     case ElementType.DIFFERENCES:
       return ``;
     case ElementType.INVALID:
+      return ``;
+    default:
       return ``;
   }
 }
