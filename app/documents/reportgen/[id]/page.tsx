@@ -29,72 +29,45 @@ export default function Page({ params }: { params: { id: number } }) {
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
 
   console.log(pages)
-  useEffect(() => {
-    async function generateReportFromLLM() {
-      setIsGeneratingReport(true);
-      const response = await fetch("http://localhost:5000/api/llm", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Tell server we're sending JSON
-        },
-        body: JSON.stringify({
-          userPrompt: "Can you generate a report on taxes", // Convert object to JSON string
-        }),
-      });
-
-      setIsGeneratingReport(false);
-      console.log(response)
-      if (!response.ok) {
-        console.error("Failed to fetch:", response.statusText);
-        return;
-      }
-
-      const data = await response.json();
-      setPages(data.response); // Ensure setPages is a valid function
-      setCurrentView(CurrentView.SHOW_PAGES_VIEW);
-    }
-
-    // Call the function (ensure it's in a React useEffect or proper async handling)
-    generateReportFromLLM();
-  }, []);
 
   const client = new ApolloClient({
     uri: `${BACKEND_URL}/graphql`,
     cache: new InMemoryCache(),
     credentials: "include",
   });
-  // useEffect(() => {
-  //   const retrieveDocument = async () => {
-  //     try {
-  //       const data = await client.query({
-  //         query: gql`
-  //           query DocumentByID($document_id: Int!) {
-  //             DocumentByID(document_id: $document_id) {
-  //               pages
-  //               document_id
-  //               name
-  //               url
-  //             }
-  //           }
-  //         `,
-  //         variables: { document_id: documentID ? documentID : +params.id },
-  //       });
-  //       setDocumentID(+params.id);
-  //       setPages(JSON.parse(data.data.DocumentByID.pages));
-  //     } catch (e) {
-  //       console.log(documentID, params.id);
-  //       console.log("Error" + e);
-  //     }
-  //   };
-  //   if (params.id != 0) {
-  //     retrieveDocument();
-  //   } else {
-  //     const pagesData = localStorage.getItem("pages");
-  //     if (pagesData !== null) {
-  //       setPages(JSON.parse(pagesData));
-  //     }
-  //   }
-  // }, []);
+
+  useEffect(() => {
+    const retrieveDocument = async () => {
+      try {
+        const data = await client.query({
+          query: gql`
+            query DocumentByID($document_id: Int!) {
+              DocumentByID(document_id: $document_id) {
+                pages
+                document_id
+                name
+                url
+              }
+            }
+          `,
+          variables: { document_id: documentID ? documentID : +params.id },
+        });
+        setDocumentID(+params.id);
+        setPages(JSON.parse(data.data.DocumentByID.pages));
+      } catch (e) {
+        console.log(documentID, params.id);
+        console.log("Error" + e);
+      }
+    };
+    if (params.id != 0) {
+      retrieveDocument();
+    } else {
+      const pagesData = localStorage.getItem("pages");
+      if (pagesData !== null) {
+        setPages(JSON.parse(pagesData));
+      }
+    }
+  }, []);
 
   const props = {
     currentView,
@@ -157,9 +130,6 @@ export default function Page({ params }: { params: { id: number } }) {
     }
   }, [currentView]);
 
-  if (isGeneratingReport) {
-    return <p>Generating</p>;
-  }
   
   return (
     <ApolloProvider client={client}>
