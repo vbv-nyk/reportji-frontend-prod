@@ -38,15 +38,20 @@ export default function Step3(props: ReportGenCommonProps) {
       const base64PDF = data.data.CreatePDF.pdf;
       console.log(data);
       const moveToHistory = {
-        url: base64PDF,
-        pages,
-        documentID
+        [documentID || "Unnamed"]: { url: base64PDF, pages, documentID, date: Date.now() },
       };
-      const currentHistory = JSON.parse(localStorage.getItem("hitory") || "[]");
-      localStorage.setItem(
-        "history",
-        JSON.stringify([moveToHistory, ...currentHistory])
-      );
+      if (documentID) {
+        const currentHistory = JSON.parse(
+          localStorage.getItem("history") || "[]"
+        );
+        localStorage.setItem(
+          "history",
+          JSON.stringify({
+            ...currentHistory,
+            ...moveToHistory,
+          })
+        );
+      }
       setPdfData(`${base64PDF}?time=${Date.now()}`);
     } catch (e) {
       console.error("Error occured", e);
