@@ -1,4 +1,6 @@
 "use client";
+import { CSSProperties } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 import { ReportGenCommonProps } from "./common";
 import AceEditor from "react-ace";
 
@@ -20,6 +22,7 @@ const RETRIEVE_PDF = gql`
 export default function Step3(props: ReportGenCommonProps) {
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
+  let [color, setColor] = useState("#ffffff");
   const { setOutputData } = props;
   const [getPDF, { loading, error }] = useMutation(RETRIEVE_PDF);
   const [pdfData, setPdfData] = useState<string>("");
@@ -68,11 +71,19 @@ export default function Step3(props: ReportGenCommonProps) {
               onChange={updateContent}
             />
           </div>
-          <div className="flex gap-2 ">
+          <div className="flex gap-2 items-center">
             <ButtonYellow2 content={"Go Back"} onClick={editPages} />
             <ButtonYellow2 content={"Run Code"} onClick={retrievePDF} />
+            <ClipLoader
+              color={color}
+              loading={loading}
+              size={20}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
           </div>
         </div>
+
         <div className="h-screen">
           {pdfData.length > 0 && (
             <object
