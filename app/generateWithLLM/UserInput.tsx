@@ -13,10 +13,15 @@ function UserInput() {
   const [getReport, { loading, error }] = useMutation(GENERATE_REPORT);
   const router = useRouter();
   const [userPrompt, setUserPrompt] = useState("");
+  const [content, setContent] = useState("");
   async function retrievePDF() {
     try {
+      let prompt = userPrompt;
+      if (content.length > 0) {
+        prompt = `${prompt}\ncontent:${content}}`;
+      }
       const data: any = await getReport({
-        variables: { prompt: userPrompt },
+        variables: { prompt },
       });
       localStorage.setItem("pages", JSON.parse(data.data.CreateReportWithLLM));
       router.push("/documents/reportgen/0");
@@ -72,6 +77,9 @@ function UserInput() {
               id="content"
               name="content"
               required
+              onChange={(e) => {
+                setContent(e.target.value);
+              }}
               placeholder="Enter the details of your report"
               rows={6}
               className="mt-2 block w-full px-4 py-2 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#01162B] focus:border-transparent"

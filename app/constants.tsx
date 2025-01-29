@@ -1,4 +1,6 @@
-export const DEVELOPMENT = true
-export const BACKEND_PORT = `4000`
-export const IP = !DEVELOPMENT ?  "reportji.zapto.org": `localhost` 
-export const BACKEND_URL = `http://${IP}:${BACKEND_PORT}`
+export const DEVELOPMENT = true;
+export const BACKEND_PORT = `${!DEVELOPMENT ? 5000 : 4000}`;
+export const IP = !DEVELOPMENT ? "reportease.ddns.net" : `localhost`;
+export const BACKEND_URL = `${
+  !DEVELOPMENT ? "https" : "http"
+}://${IP}:${BACKEND_PORT}`;
