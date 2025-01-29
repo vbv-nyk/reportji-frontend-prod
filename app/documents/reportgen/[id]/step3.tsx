@@ -33,13 +33,14 @@ export default function Step3(props: ReportGenCommonProps) {
   async function retrievePDF() {
     try {
       const data = await getPDF({
-        variables: { texFile: outputData, docID: documentID },
+        variables: { texFile: outputData, docID: 0 },
       });
       const base64PDF = data.data.CreatePDF.pdf;
       console.log(data);
       const moveToHistory = {
         url: base64PDF,
         pages,
+        documentID
       };
       const currentHistory = JSON.parse(localStorage.getItem("hitory") || "[]");
       localStorage.setItem(

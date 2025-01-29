@@ -127,8 +127,8 @@ export type ReportGenCommonProps = {
   setCurrentPage: Dispatch<SetStateAction<number>>;
   outputData: string;
   setOutputData: Dispatch<SetStateAction<string>>;
-  documentID: number | null;
-  setDocumentID: Dispatch<SetStateAction<number | null>>;
+  documentID: string | null;
+  setDocumentID: Dispatch<SetStateAction<string | null>>;
 };
 
 export type Step2Props = {

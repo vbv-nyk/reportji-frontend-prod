@@ -5,41 +5,26 @@ import Navbar from "../Components/Navbar";
 import { BACKEND_URL } from "../constants";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Pages } from "../types/types";
 
 export default function Page() {
   const [documents, setDocuments] = useState<
-    [
-      {
-        name: String | undefined;
-        pages: String | undefined;
-        url: String | undefined;
-        document_id: number;
-      }
-    ]
+    {
+      url: string;
+      pages: Pages;
+      documentID: string;
+    }[]
   >();
   useEffect(() => {
-    const client = new ApolloClient({
-      uri: `${BACKEND_URL}/graphql`,
-      cache: new InMemoryCache(),
-      credentials: "include",
-    });
     async function getDocuments() {
       try {
-        const data = await client.query({
-          query: gql`
-            query RetrieveDocuments {
-              RetrieveDocuments {
-                pages
-                document_id
-                name
-                url
-              }
-            }
-          `,
-        });
-        console.log(data.data.RetrieveDocuments);
-        setDocuments(data.data.RetrieveDocuments);
-        return data;
+        const history: {
+          url: string;
+          pages: Pages;
+          documentID: string;
+        }[] = JSON.parse(localStorage.getItem("history") || "[]");
+        console.log(history);
+        setDocuments(history);
       } catch (e) {
         console.error("Error" + e);
       }
@@ -50,10 +35,16 @@ export default function Page() {
   const DocumentsJSX = (documents &&
     documents.map((document, index) => (
       <>
-        <Link className="bg-gray-300 p-2" key={index} href={`/documents/reportgen/${document.document_id}`}>
+        <Link
+          className="bg-gray-300 p-2"
+          key={index}
+          href={`/documents/reportgen/${document.pages[0].name}`}
+        >
           <div className="flex flex-col">
-            <img className="max-h-[300px]" src=""/>
-            <button className="text-black w-full">{document.name}</button>
+            <img className="max-h-[300px]" src="" />
+            <button className="text-black w-full">
+              {document.documentID}
+            </button>
           </div>
         </Link>
       </>

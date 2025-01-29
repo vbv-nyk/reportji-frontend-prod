@@ -25,7 +25,7 @@ export default function Page({ params }: { params: { id: number } }) {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [outputData, setOutputData] = useState<string>("");
   const [displayRow, setDisplayRow] = useState(80);
-  const [documentID, setDocumentID] = useState<number | null>(null);
+  const [documentID, setDocumentID] = useState<string | null>(null);
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
 
   console.log(pages)
@@ -52,7 +52,6 @@ export default function Page({ params }: { params: { id: number } }) {
           `,
           variables: { document_id: documentID ? documentID : +params.id },
         });
-        setDocumentID(+params.id);
         setPages(JSON.parse(data.data.DocumentByID.pages));
       } catch (e) {
         console.log(documentID, params.id);

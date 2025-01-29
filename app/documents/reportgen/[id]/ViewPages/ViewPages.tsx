@@ -144,7 +144,7 @@ export default function ViewPages(props: ReportGenCommonProps) {
       pages
     )}\n\\end{document}`;
     setOutputData(inputJi);
-    setDocumentID(0);
+    setDocumentID(doc_ref.current.value);
     setCurrentView(CurrentView.REPORT_VIEW);
   }
 
