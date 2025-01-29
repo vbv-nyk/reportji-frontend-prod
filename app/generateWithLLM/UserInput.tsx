@@ -3,6 +3,7 @@ import Logo3 from "../Components/Images/Logo3";
 import Navbar from "../Components/Navbar";
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
+import { ClipLoader } from "react-spinners";
 
 const GENERATE_REPORT = gql`
   mutation generateReport($prompt: String!) {
@@ -38,7 +39,7 @@ function UserInput() {
       </div>
 
       <div className="flex-1 flex justify-center items-center">
-        <div className="bg-[#01162B] p-8 rounded-lg shadow-lg w-full max-w-4xl">
+        <div className="bg-[#01162B] p-8 rounded-lg shadow-lg w-full max-w-4xl flex flex-col gap-4">
           <h2 className="text-3xl font-semibold text-center text-white">
             Create Your Report
           </h2>
@@ -61,7 +62,7 @@ function UserInput() {
               type="text"
               required
               placeholder="Enter the report topic"
-              className="mt-2 block w-full px-4 py-2 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#01162B] focus:border-transparent"
+              className="block w-full px-4 py-2 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#01162B] focus:border-transparent"
             />
           </div>
 
@@ -82,12 +83,12 @@ function UserInput() {
               }}
               placeholder="Enter the details of your report"
               rows={6}
-              className="mt-2 block w-full px-4 py-2 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#01162B] focus:border-transparent"
+              className="block w-full px-4 py-2 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#01162B] focus:border-transparent"
             />
           </div>
 
           {/* Submit Button */}
-          <div className="flex justify-center mt-6">
+          <div className="flex justify-center">
             {!loading ? (
               <button
                 onClick={() => {
@@ -102,6 +103,14 @@ function UserInput() {
                 Generating... please sit back.
               </text>
             )}
+
+            <ClipLoader
+              color={"#ffffff"}
+              loading={loading}
+              size={20}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
           </div>
         </div>
       </div>
