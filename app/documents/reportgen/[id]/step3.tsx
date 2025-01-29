@@ -25,7 +25,7 @@ export default function Step3(props: ReportGenCommonProps) {
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
   let [color, setColor] = useState("#ffffff");
-  const { setOutputData } = props;
+  const { setOutputData, pages } = props;
   const [getPDF, { loading, error }] = useMutation(RETRIEVE_PDF);
   const [pdfData, setPdfData] = useState<string>("");
   const [copyButtonContent, setCopyButtonContent] = useState("Copy");
@@ -37,6 +37,15 @@ export default function Step3(props: ReportGenCommonProps) {
       });
       const base64PDF = data.data.CreatePDF.pdf;
       console.log(data);
+      const moveToHistory = {
+        url: base64PDF,
+        pages,
+      };
+      const currentHistory = JSON.parse(localStorage.getItem("hitory") || "[]");
+      localStorage.setItem(
+        "history",
+        JSON.stringify([moveToHistory, ...currentHistory])
+      );
       setPdfData(`${base64PDF}?time=${Date.now()}`);
     } catch (e) {
       console.error("Error occured", e);
@@ -93,7 +102,7 @@ export default function Step3(props: ReportGenCommonProps) {
                 setCopyButtonContent("Copied");
                 setTimeout(() => {
                   setCopyButtonContent("Copy");
-                },2000)
+                }, 2000);
               }}
             />
           </div>
