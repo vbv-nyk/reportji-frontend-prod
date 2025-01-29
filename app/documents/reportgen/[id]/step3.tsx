@@ -11,6 +11,8 @@ import { gql, useMutation } from "@apollo/client";
 import ButtonYellow2 from "../../../Components/Buttons/ButtonYellow2";
 import { useEffect, useState } from "react";
 import { CurrentView } from "./types";
+import ButtonWhite1 from "@/app/Components/Buttons/ButtonWhite1";
+import ButtonYellow1 from "@/app/Components/Buttons/ButtonYellow1";
 
 const RETRIEVE_PDF = gql`
   mutation CreatePDF($texFile: String!, $docID: Int!) {
@@ -26,6 +28,7 @@ export default function Step3(props: ReportGenCommonProps) {
   const { setOutputData } = props;
   const [getPDF, { loading, error }] = useMutation(RETRIEVE_PDF);
   const [pdfData, setPdfData] = useState<string>("");
+  const [copyButtonContent, setCopyButtonContent] = useState("Copy");
   const { outputData, setCurrentView, documentID } = props;
   async function retrievePDF() {
     try {
@@ -71,15 +74,27 @@ export default function Step3(props: ReportGenCommonProps) {
               onChange={updateContent}
             />
           </div>
-          <div className="flex gap-2 items-center">
-            <ButtonYellow2 content={"Go Back"} onClick={editPages} />
-            <ButtonYellow2 content={"Run Code"} onClick={retrievePDF} />
-            <ClipLoader
-              color={color}
-              loading={loading}
-              size={20}
-              aria-label="Loading Spinner"
-              data-testid="loader"
+          <div className="flex justify-between">
+            <div className="flex gap-2 items-center">
+              <ButtonYellow2 content={"Go Back"} onClick={editPages} />
+              <ButtonYellow2 content={"Run Code"} onClick={retrievePDF} />
+              <ClipLoader
+                color={"#ffffff"}
+                loading={loading}
+                size={20}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            </div>
+            <ButtonYellow2
+              content={copyButtonContent}
+              onClick={() => {
+                navigator.clipboard.writeText(outputData);
+                setCopyButtonContent("Copied");
+                setTimeout(() => {
+                  setCopyButtonContent("Copy");
+                },2000)
+              }}
             />
           </div>
         </div>
