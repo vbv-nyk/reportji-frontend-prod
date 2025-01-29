@@ -40,7 +40,7 @@ export default function Page() {
               <div className="flex flex-col items-center gap-4">
                 <div className="flex flex-col">
                   <p className="font-extrabold text-center text-white">
-                    Easy File Conversion From One Format To Another!
+                    Create a report in less than a minute, with your content!
                   </p>
                   <div className="text-center text-xl text-white font-extrabold uppercase">
                     T<span className="underline underline-offset-8">ry no</span>
