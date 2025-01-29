@@ -81,7 +81,7 @@ export default function Page() {
         <Navbar />
       </div>
       <div className="h-full w-full p-4 flex flex-col gap-2">
-        <div className="text-center">Your Files</div>
+        <div className="text-2xl text-left">History</div>
         <div className="grid grid-cols-1 gap-2">{DocumentsJSX}</div>
       </div>
     </div>
