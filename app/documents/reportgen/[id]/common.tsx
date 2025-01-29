@@ -10,10 +10,17 @@ import {
 import getElementName, {
   getElementType,
   getParentType,
+  Table,
 } from "../../../types/elements";
-import { ElementParentType, ElementType, Page, Pages } from "../../../types/types";
+import {
+  ElementParentType,
+  ElementType,
+  Page,
+  Pages,
+} from "../../../types/types";
 import ButtonYellow2 from "../../../Components/Buttons/ButtonYellow2";
 import { CurrentView } from "./types";
+import Tables from "./Inputs/Tables";
 
 export function Common() {
   return (
@@ -26,20 +33,20 @@ export function Common() {
 }
 
 export function Progress({ pageNumber }: { pageNumber: Number }) {
-  let firstCirle,bridge,  secondCircle ; 
-  if(pageNumber == CurrentView.ENTER_CHAPTER_VIEW ) {
-    firstCirle =  "#6b7280" ;
-    secondCircle =  "#6b7280" ;
-    bridge =  "#6b7280" ;
-  } else if(pageNumber == CurrentView.REPORT_VIEW) {
+  let firstCirle, bridge, secondCircle;
+  if (pageNumber == CurrentView.ENTER_CHAPTER_VIEW) {
+    firstCirle = "#6b7280";
+    secondCircle = "#6b7280";
+    bridge = "#6b7280";
+  } else if (pageNumber == CurrentView.REPORT_VIEW) {
     firstCirle = "#ffffff";
     secondCircle = "#ffffff";
     bridge = "#ffffff";
-  } else if(pageNumber == CurrentView.ENTER_CONTENT_VIEW) {
+  } else if (pageNumber == CurrentView.ENTER_CONTENT_VIEW) {
     firstCirle = "#ffffff";
     secondCircle = "#6b7280";
     bridge = "#ffffff";
-  } else if(pageNumber == CurrentView.SHOW_PAGES_VIEW) {
+  } else if (pageNumber == CurrentView.SHOW_PAGES_VIEW) {
     firstCirle = "#ffffff";
     secondCircle = "#6b7280";
     bridge = "#6b7280";
@@ -59,7 +66,8 @@ export function Progress({ pageNumber }: { pageNumber: Number }) {
       ></div>
       <button
         style={{ color: secondCircle, borderColor: secondCircle }}
-       className="text-gray-500 font-bold border-2 border-gray-500 px-[10px] text-sm py-1 rounded-[100%]">
+        className="text-gray-500 font-bold border-2 border-gray-500 px-[10px] text-sm py-1 rounded-[100%]"
+      >
         2
       </button>
     </>
@@ -105,6 +113,8 @@ export function GetCurrentInput(props: GetCurrentInputProps) {
           />
         </div>
       );
+    case "Differences":
+      return <Tables/>
   }
 }
 
@@ -116,7 +126,7 @@ export type ReportGenCommonProps = {
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   outputData: string;
-  setOutputData:  Dispatch<SetStateAction<string>>;
+  setOutputData: Dispatch<SetStateAction<string>>;
   documentID: number | null;
   setDocumentID: Dispatch<SetStateAction<number | null>>;
 };
@@ -134,21 +144,29 @@ export type Step2Props = {
 };
 
 export function TakeInput(props: Step2Props) {
-  const { setPage, currentPage, page, content, editIndex, defaultType, setEditIndex, pages, setPages} =
-    props;
+  const {
+    setPage,
+    currentPage,
+    page,
+    content,
+    editIndex,
+    defaultType,
+    setEditIndex,
+    pages,
+    setPages,
+  } = props;
   const inputElement = useRef<HTMLInputElement>(null);
   const textAreaElement = useRef<HTMLTextAreaElement>(null);
   const [currentType, setCurrentType] = useState(defaultType);
   const changeType = (e: ChangeEvent<HTMLSelectElement>) => {
     setCurrentType(e.target.value);
   };
-  
-  
+
   useEffect(() => {
-    const pagesClone = pages.map(page => page);
-    pagesClone[currentPage] = page; 
+    const pagesClone = pages.map((page) => page);
+    pagesClone[currentPage] = page;
     localStorage.setItem("pages", JSON.stringify(pagesClone));
-  }, [page])
+  }, [page]);
 
   const addElement = (editIndex: number) => {
     let elementType = getElementType(currentType);
@@ -184,22 +202,23 @@ export function TakeInput(props: Step2Props) {
         }
         inputElement.current.value = "";
       }
-      
-      
     }
 
     if (textAreaElement != null && parentType == ElementParentType.VECTOR) {
       if (textAreaElement.current) {
         content = textAreaElement.current.value;
         if (content === "") return;
-        let lines =  content.split('\n');
+        let lines = content.split("\n");
         console.log(lines);
         if (editIndex === -1) {
           setPage({
             name: page.name,
             elements: [
               ...page.elements,
-              { type: parentType, element: { content: lines, type: elementType } },
+              {
+                type: parentType,
+                element: { content: lines, type: elementType },
+              },
             ],
           });
         } else {
@@ -223,16 +242,19 @@ export function TakeInput(props: Step2Props) {
 
     if (textAreaElement != null && parentType == ElementParentType.FIGURES) {
       if (textAreaElement.current) {
-      content = textAreaElement.current.value;
+        content = textAreaElement.current.value;
         if (content === "") return;
-        let lines =  content.split('\n');
+        let lines = content.split("\n");
         console.log(lines);
         if (editIndex === -1) {
           setPage({
             name: page.name,
             elements: [
               ...page.elements,
-              { type: parentType, element: { content: lines, type: elementType } },
+              {
+                type: parentType,
+                element: { content: lines, type: elementType },
+              },
             ],
           });
         } else {
@@ -253,7 +275,6 @@ export function TakeInput(props: Step2Props) {
         textAreaElement.current.value = "";
       }
     }
-    
   };
 
   const deleteElement = (editIndex: number) => {

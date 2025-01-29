@@ -18,8 +18,18 @@ import {
 import { useRef } from "react";
 
 const CREATE_FILE = gql`
-  mutation getOutputTex($inputJi: String!, $name: String!, $pagesData: String!, $docID: Int) {
-    CreateTexFile(inputJi: $inputJi, name: $name, pagesData: $pagesData, docID: $docID) {
+  mutation getOutputTex(
+    $inputJi: String!
+    $name: String!
+    $pagesData: String!
+    $docID: Int
+  ) {
+    CreateTexFile(
+      inputJi: $inputJi
+      name: $name
+      pagesData: $pagesData
+      docID: $docID
+    ) {
       err
       errMsg
       tex
@@ -28,8 +38,15 @@ const CREATE_FILE = gql`
   }
 `;
 export default function ViewPages(props: ReportGenCommonProps) {
-  const { setCurrentView, setCurrentPage, pages, setPages, setOutputData, documentID, setDocumentID} =
-    props;
+  const {
+    setCurrentView,
+    setCurrentPage,
+    pages,
+    setPages,
+    setOutputData,
+    documentID,
+    setDocumentID,
+  } = props;
 
   const [getReport, { loading, error }] = useMutation(CREATE_FILE);
   const doc_ref = useRef<HTMLInputElement>(null);
@@ -51,23 +68,84 @@ export default function ViewPages(props: ReportGenCommonProps) {
     localStorage.setItem("pages", JSON.stringify(pagesClone));
   }
 
+  function getCurrentTemplate() {
+    return `\\documentclass[oneside]{book}
+\\usepackage[T1]{fontenc}
+\\usepackage[demo]{graphicx}
+\\usepackage{grffile}
+\\usepackage{tocloft}
+\\usepackage{mathptmx}
+\\usepackage[a4paper, total={6in, 8in}]{geometry}
+\\usepackage{hyperref}
+\\usepackage{xcolor}
+\\usepackage{color}
+\\usepackage{tabularx}
+\\usepackage{listings}
+\\usepackage{subcaption}
+\\definecolor{myorange}{RGB}{131,59, 12}
+\\usepackage{titlesec}
+
+\\titleformat{\\chapter}[display]
+{\\normalfont\\fontsize{16}{22}\\selectfont\\bfseries}
+  {\\MakeUppercase{\\chaptertitlename} \\thechapter}
+{10pt}
+{\\centering\\fontsize{18}{22}\\selectfont}
+\\titlespacing*{\\chapter}{0pt}{-20pt}{20pt}
+\\usepackage{fancyhdr}
+\\pagestyle{fancy}
+\\fancyhf{}
+\\renewcommand{\\normalsize}{\\fontsize{12}{14}\\selectfont}
+\\DeclareUnicodeCharacter{2212}{\\ensuremath{-}}\\newcommand{\\osquare}{[}
+\\newcommand{\\csquare}{]}
+\\newcommand{\\oround}{(}
+\\newcommand{\\cround}{)}
+\\newcommand{\\ocurly}{\\text{\\{}}
+\\newcommand{\\ccurly}{\\text{\\}}}
+\\newcommand{\\quotes}{"}
+\\newcommand{\\codelst}[1]{\\lstinline{#1}}
+  \\fancyhead[L]{\\color{black}\\fontsize{12}{20}\\selectfont\\bfseries\\textbf{ReportJi}}
+\\fancyhead[R]{\\color{black}\\textbf{\\leftmark}}
+\\fancyfoot[L]{\\color{black} \\fontsize{12}{20}\\selectfont\\textbf{Department of Computer Science}}
+  \\fancyfoot[R]{\\color{black}\\fontsize{12}{20}\\selectfont Page \\thepage}
+\\renewcommand{\\headrule}{\\color{myorange}\\hrule height 0.4pt}
+\\renewcommand{\\footrule}{\\color{myorange}\\hrule height 0.4pt}
+\\fancypagestyle{plain}{
+  \\fancyhf{}
+  \\fancyhead[L]{\\color{black}\\fontsize{12}{20}\\selectfont\\bfseries\\textbf{ReportJi}}
+  \\fancyhead[R]{\\color{black}\\textbf{\\leftmark}}
+  \\fancyfoot[L]{\\color{black} \\fontsize{12}{20}\\selectfont\\textbf{Department of Computer Science}}
+  \\fancyfoot[R]{\\fontsize{12}{20}\\selectfont \\color{black}Page \\thepage}
+  \\renewcommand{\\headrule}{\\color{myorange}\\hrule height 0.4pt}
+  \\renewcommand{\\footrule}{\\color{myorange}\\hrule height 0.4pt}
+}
+\\linespread{1.5}
+\\usepackage{float}
+\\restylefloat{figure}
+\\lstset{
+  backgroundcolor=\\color{white},
+  basicstyle=\\ttfamily\\color{black},
+  escapeinside={||},
+  breaklines=true,
+  lineskip=2pt,
+}
+\\begin{document}
+\\setcounter{page}{0}
+\\tableofcontents
+\\newpage\\listoffigures
+\\clearpage
+\\pagenumbering{arabic}
+\\setcounter{page}{1}
+    `;
+  }
   async function generateReport() {
-    if(!doc_ref.current || !doc_ref.current.value) return;
-    let doc_name = doc_ref.current.value;
-    let inputJi = "stlyes = {\n}\n";
+    if (!doc_ref.current || !doc_ref.current.value) return;
     console.log(pages);
-    const pagesData = PageToJi(pages);
-    inputJi = inputJi.concat(`pages = {\n${pagesData}\n}\n`);
-    inputJi = inputJi.concat("output = {\n}");
-    try {
-      const data = await getReport({ variables: { inputJi, name: doc_name, pagesData: JSON.stringify(pages), docID: documentID} });
-    const { CreateTexFile } = data.data;
-    setOutputData(CreateTexFile.tex);
-    setDocumentID(CreateTexFile.document_id)
+    let inputJi = `${getCurrentTemplate()}\n${PageToJi(
+      pages
+    )}\n\\end{document}`;
+    setOutputData(inputJi);
+    setDocumentID(0);
     setCurrentView(CurrentView.REPORT_VIEW);
-    } catch (e) {
-      console.log("Error: ", e);
-    }
   }
 
   function PageList(provided: DroppableProvided) {
@@ -143,11 +221,16 @@ export default function ViewPages(props: ReportGenCommonProps) {
         <ButtonYellow2 onClick={newChapter} content={"Add Page"} />
         {pages.length != 0 && (
           <div className="flex flex-col gap-2">
-          <input ref={doc_ref} defaultValue={"Report"} placeholder="Enter the name of your report" className="p-2 rounded-xl text-center"/>
-          <ButtonYellow2
-            onClick={generateReport}
-            content={"Give Me My Report!!!"}
-          />
+            <input
+              ref={doc_ref}
+              defaultValue={"Report"}
+              placeholder="Enter the name of your report"
+              className="p-2 rounded-xl text-center"
+            />
+            <ButtonYellow2
+              onClick={generateReport}
+              content={"Give Me My Report!!!"}
+            />
           </div>
         )}
       </div>

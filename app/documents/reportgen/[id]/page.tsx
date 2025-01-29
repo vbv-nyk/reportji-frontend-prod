@@ -26,12 +26,16 @@ export default function Page({ params }: { params: { id: number } }) {
   const [outputData, setOutputData] = useState<string>("");
   const [displayRow, setDisplayRow] = useState(80);
   const [documentID, setDocumentID] = useState<number | null>(null);
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
+
+  console.log(pages)
 
   const client = new ApolloClient({
     uri: `${BACKEND_URL}/graphql`,
     cache: new InMemoryCache(),
     credentials: "include",
   });
+
   useEffect(() => {
     const retrieveDocument = async () => {
       try {
@@ -46,7 +50,7 @@ export default function Page({ params }: { params: { id: number } }) {
               }
             }
           `,
-          variables: { document_id: documentID ? documentID : +params.id},
+          variables: { document_id: documentID ? documentID : +params.id },
         });
         setDocumentID(+params.id);
         setPages(JSON.parse(data.data.DocumentByID.pages));
@@ -77,7 +81,6 @@ export default function Page({ params }: { params: { id: number } }) {
     documentID,
     setDocumentID,
   };
-
   const HeaderSection = () => {
     switch (currentView) {
       case CurrentView.SHOW_PAGES_VIEW:
@@ -126,6 +129,8 @@ export default function Page({ params }: { params: { id: number } }) {
       setDisplayRow(80);
     }
   }, [currentView]);
+
+  
   return (
     <ApolloProvider client={client}>
       <div className="py-6 bg-[#01162B] flex flex-col gap-4 min-h-screen h-full">
