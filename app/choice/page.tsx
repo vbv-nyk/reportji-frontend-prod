@@ -9,7 +9,7 @@ export default function Page() {
   return (
     <div className="h-screen">
         
-      <div className="bg-[#01162B] flex items-center justify-around">
+      <div className="py-6 bg-[#01162B] flex items-center justify-around">
         <Logo2/>
         <Navbar />
       </div>

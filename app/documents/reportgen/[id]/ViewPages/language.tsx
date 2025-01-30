@@ -32,19 +32,21 @@ function parse_date(date: ScalarElement | VectorElement) {
   return markup;
 }
 function parse_paragraphs(paragraphs: ScalarElement | VectorElement) {
-  if (!Array.isArray(paragraphs.content)) return ``;
+  if (!Array.isArray(paragraphs.content))
+    paragraphs.content = paragraphs.content.split("\n");
   const markup = `${paragraphs.content.join("\n\n")}\n`;
   return markup;
 }
 function parse_code(paragraphs: ScalarElement | VectorElement) {
-  if (!Array.isArray(paragraphs.content)) return ``;
+  if (!Array.isArray(paragraphs.content))
+    paragraphs.content = paragraphs.content.split("\n");
   const content = paragraphs.content.join("\n");
   const markup = `\\begin{lstlisting}\n${content}\n\\end{lstlisting}`;
 
   return markup;
 }
 function parse_items(items: ScalarElement | VectorElement) {
-  if (!Array.isArray(items.content)) return ``;
+  if (!Array.isArray(items.content)) items.content = [items.content];
   let markup = "\\begin{itemize}\n";
   items.content.map((item) => {
     markup += `\\item ${item}`;
@@ -54,7 +56,8 @@ function parse_items(items: ScalarElement | VectorElement) {
 }
 function parse_figures(figures: ScalarElement | VectorElement): string {
   let markup = "";
-  if (!Array.isArray(figures.content)) return "";
+  if (!Array.isArray(figures.content))
+    figures.content = figures.content.split("\n");
   if (figures.content.length > 1) {
     markup += "\\begin{figure}[h]\n\\centering\n";
     for (let i = 0; i < figures.content.length; i++) {
@@ -73,7 +76,8 @@ function parse_figures(figures: ScalarElement | VectorElement): string {
 function parse_citations(citations: ScalarElement | VectorElement): string {
   let markup = "\\begin{thebibliography}{100}\n";
 
-  if (!Array.isArray(citations.content)) return "";
+  if (!Array.isArray(citations.content))
+    citations.content = citations.content.split("\n");
   for (let i = 0; i < citations.content.length; i++) {
     markup += `\\bibitem{${i}}\n${citations.content[i]}\n`;
   }

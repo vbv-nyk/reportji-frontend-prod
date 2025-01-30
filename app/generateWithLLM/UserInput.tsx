@@ -4,6 +4,8 @@ import Navbar from "../Components/Navbar";
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
+import Logo1 from "../Components/Images/Logo1";
+import Logo2 from "../Components/Images/Logo2";
 
 const GENERATE_REPORT = gql`
   mutation generateReport($prompt: String!) {
@@ -12,6 +14,7 @@ const GENERATE_REPORT = gql`
 `;
 function UserInput() {
   const [getReport, { loading, error }] = useMutation(GENERATE_REPORT);
+  const [errorMSG, setErrorMSG] = useState("");
   const router = useRouter();
   const [userPrompt, setUserPrompt] = useState("");
   const [content, setContent] = useState("");
@@ -24,6 +27,13 @@ function UserInput() {
       const data: any = await getReport({
         variables: { prompt },
       });
+
+      if (
+        JSON.parse(data.data.CreateReportWithLLM) === "Error generating report"
+      ) {
+        setErrorMSG("Gemini servers are busy");
+        throw new Error("Gemini Servers Are Busy");
+      }
       localStorage.setItem("pages", JSON.parse(data.data.CreateReportWithLLM));
       router.push("/documents/reportgen/0");
     } catch (e) {
@@ -32,13 +42,13 @@ function UserInput() {
   }
   function saveCurrentPage() {}
   return (
-    <div className="h-screen flex flex-col bg-[#040e18]">
-      <div className="h-[15%] bg-[#01162B] flex items-center justify-between px-8">
-        <Logo3 />
+    <div className="flex gap-4 flex-col bg-[#040e18]">
+      <div className=" py-2 bg-[#01162B] flex items-center justify-between px-8">
+        <Logo2 />
         <Navbar />
       </div>
 
-      <div className="flex-1 flex justify-center items-center">
+      <div className="flex-1 mb-4 flex justify-center items-center">
         <div className="bg-[#01162B] p-8 rounded-lg shadow-lg w-full max-w-4xl flex flex-col gap-4">
           <h2 className="text-3xl font-semibold text-center text-white">
             Create Your Report
@@ -88,7 +98,7 @@ function UserInput() {
           </div>
 
           {/* Submit Button */}
-          <div className="flex justify-center">
+          <div className="flex flex-col gap-2  justify-center">
             {!loading ? (
               <button
                 onClick={() => {
@@ -99,18 +109,21 @@ function UserInput() {
                 Submit report
               </button>
             ) : (
-              <text className="text-white font-bold">
-                Generating... please sit back.
-              </text>
+              <>
+                <text className="text-white font-bold">
+                  Generating... please sit back.
+                </text>
+                <ClipLoader
+                  color={"#ffffff"}
+                  loading={loading}
+                  size={20}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              </>
             )}
 
-            <ClipLoader
-              color={"#ffffff"}
-              loading={loading}
-              size={20}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
+            {errorMSG && <div className="text-center text-red-500 font-extrabold">{errorMSG} :\</div>}
           </div>
         </div>
       </div>
