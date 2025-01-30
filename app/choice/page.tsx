@@ -15,7 +15,7 @@ export default function Page() {
       </div>
       <div className="h-full">
         <div className="h-full grid grid-cols-1  md:grid-cols-2">
-          <div className="h-full flex flex-col justify-center items-center p-2">
+          <div className="h-full bg-[#f6e275] flex flex-col justify-center items-center p-2">
             <img className="h-[300px] " src="/images/generate_report.png"></img>
             <div className="flex flex-col items-center gap-4">
               <div className="flex flex-col">

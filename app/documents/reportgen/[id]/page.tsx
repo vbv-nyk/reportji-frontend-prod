@@ -132,8 +132,8 @@ export default function Page({ params }: { params: { id: number } }) {
   
   return (
     <ApolloProvider client={client}>
-      <div className="py-6 bg-[#01162B] flex flex-col gap-4 min-h-screen h-full">
-        <div className="flex justify-around">
+      <div className="py-2 bg-[#01162B] flex flex-col gap-4 min-h-screen h-full">
+        <div className="flex justify-around items-center">
           <Logo2 />
           <Navbar />
         </div>
