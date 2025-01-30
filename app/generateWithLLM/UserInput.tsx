@@ -19,7 +19,7 @@ function UserInput() {
     try {
       let prompt = userPrompt;
       if (content.length > 0) {
-        prompt = `${prompt}\ncontent:${content}}`;
+        prompt = `${prompt}\ncontent:${content}`;
       }
       const data: any = await getReport({
         variables: { prompt },
