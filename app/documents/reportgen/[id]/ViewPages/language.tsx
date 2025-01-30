@@ -38,7 +38,7 @@ function parse_paragraphs(paragraphs: ScalarElement | VectorElement) {
 }
 function parse_code(paragraphs: ScalarElement | VectorElement) {
   if (!Array.isArray(paragraphs.content)) return ``;
-  const content = paragraphs.content.join("\n\n");
+  const content = paragraphs.content.join("\n");
   const markup = `\\begin{lstlisting}\n${content}\n\\end{lstlisting}`;
 
   return markup;
