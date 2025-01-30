@@ -28,7 +28,7 @@ export default function Page({ params }: { params: { id: number } }) {
   const [documentID, setDocumentID] = useState<string | null>(null);
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
 
-  console.log(pages)
+  /* console.log */(pages)
 
   const client = new ApolloClient({
     uri: `${BACKEND_URL}/graphql`,
@@ -54,8 +54,8 @@ export default function Page({ params }: { params: { id: number } }) {
         });
         setPages(JSON.parse(data.data.DocumentByID.pages));
       } catch (e) {
-        console.log(documentID, params.id);
-        console.log("Error" + e);
+        // console.log(documentID, params.id);
+        // console.log("Error" + e);
       }
     };
     if (params.id != 0) {

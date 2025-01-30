@@ -36,7 +36,7 @@ export default function Step3(props: ReportGenCommonProps) {
         variables: { texFile: outputData, docID: 0 },
       });
       const base64PDF = data.data.CreatePDF.pdf;
-      console.log(data);
+      // console.log(data);
       const moveToHistory = {
         [documentID || "Unnamed"]: { url: base64PDF, pages, documentID, date: Date.now() },
       };

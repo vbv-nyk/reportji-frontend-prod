@@ -32,7 +32,8 @@ function parse_date(date: ScalarElement | VectorElement) {
   return markup;
 }
 function parse_paragraphs(paragraphs: ScalarElement | VectorElement) {
-  const markup = `${paragraphs.content}\n`;
+  if (!Array.isArray(paragraphs.content)) return ``;
+  const markup = `${paragraphs.content.join("\n\n")}\n`;
   return markup;
 }
 function parse_code(paragraphs: ScalarElement | VectorElement) {
@@ -114,8 +115,9 @@ export function PageToJi(pages: Pages): string {
     output.push("\\newpage");
     output.push(`\\uppercase{\\chapter{${page.name}}}`);
     page.elements.forEach((element) => {
+      console.log("The content is: ", element.element.content);
       const content = getElementBasedContent(element);
-      console.log(content);
+      // console.log(content);
       output.push(content);
     });
   });

@@ -139,7 +139,7 @@ export default function ViewPages(props: ReportGenCommonProps) {
   }
   async function generateReport() {
     if (!doc_ref.current || !doc_ref.current.value) return;
-    console.log(pages);
+    // console.log(pages);
     let inputJi = `${getCurrentTemplate()}\n${PageToJi(
       pages
     )}\n\\end{document}`;

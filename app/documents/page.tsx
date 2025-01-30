@@ -33,7 +33,7 @@ export default function Page() {
           };
         } = JSON.parse(localStorage.getItem("history") || "{}");
         setDocuments(history);
-        console.log(history)
+        // console.log(history)
       } catch (e) {
         console.error("Error" + e);
       }

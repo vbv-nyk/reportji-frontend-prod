@@ -198,7 +198,7 @@ export function TakeInput(props: Step2Props) {
           });
           setPage({ name: page.name, elements: newElements });
           setEditIndex(-1);
-          console.log(newElements);
+          // console.log(newElements);
         }
         inputElement.current.value = "";
       }
@@ -209,7 +209,7 @@ export function TakeInput(props: Step2Props) {
         content = textAreaElement.current.value;
         if (content === "") return;
         let lines = content.split("\n");
-        console.log(lines);
+        // console.log(lines);
         if (editIndex === -1) {
           setPage({
             name: page.name,
@@ -234,7 +234,7 @@ export function TakeInput(props: Step2Props) {
           });
           setPage({ name: page.name, elements: newElements });
           setEditIndex(-1);
-          console.log(newElements);
+          // console.log(newElements);
         }
         textAreaElement.current.value = "";
       }
@@ -245,7 +245,7 @@ export function TakeInput(props: Step2Props) {
         content = textAreaElement.current.value;
         if (content === "") return;
         let lines = content.split("\n");
-        console.log(lines);
+        // console.log(lines);
         if (editIndex === -1) {
           setPage({
             name: page.name,
@@ -270,7 +270,7 @@ export function TakeInput(props: Step2Props) {
           });
           setPage({ name: page.name, elements: newElements });
           setEditIndex(-1);
-          console.log(newElements);
+          // console.log(newElements);
         }
         textAreaElement.current.value = "";
       }
