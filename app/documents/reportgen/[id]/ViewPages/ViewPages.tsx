@@ -152,7 +152,7 @@ export default function ViewPages(props: ReportGenCommonProps) {
     if (pages.length == 0) {
       return (
         <div className="flex flex-col gap-2">
-          <div className="text-white font-bold text-3xl">Your Pages</div>
+          <div className="text-white font-bold text-3xl">Your Chapters</div>
           <div className="text-white font-light">
             You do not have any chapters yet, click below to start a new
             chapter.
