@@ -127,6 +127,8 @@ export type ReportGenCommonProps = {
   setCurrentPage: Dispatch<SetStateAction<number>>;
   outputData: string;
   setOutputData: Dispatch<SetStateAction<string>>;
+  outputFormat: string;
+  setOutputFormat: Dispatch<SetStateAction<string>>;
   documentID: string | null;
   setDocumentID: Dispatch<SetStateAction<string | null>>;
 };

@@ -48,6 +48,8 @@ export default function ViewPages(props: ReportGenCommonProps) {
     setOutputData,
     documentID,
     setDocumentID,
+    outputFormat,
+    setOutputFormat,
   } = props;
 
   const [getReport, { loading, error }] = useMutation(CREATE_FILE);
@@ -72,8 +74,10 @@ export default function ViewPages(props: ReportGenCommonProps) {
 
   function getCurrentTemplate(templateName: string) {
     switch (templateName) {
-      case "COLLEGE": return collegeTemplate
-      case "IEEE": return IEEE
+      case "COLLEGE":
+        return collegeTemplate;
+      case "IEEE":
+        return IEEE;
     }
   }
   async function generateReport() {
@@ -160,12 +164,24 @@ export default function ViewPages(props: ReportGenCommonProps) {
         <ButtonYellow2 onClick={newChapter} content={"Add Page"} />
         {pages.length != 0 && (
           <div className="flex flex-col gap-2">
-            <input
-              ref={doc_ref}
-              defaultValue={"Report"}
-              placeholder="Enter the name of your report"
-              className="p-2 rounded-xl text-center"
-            />
+            <div className="flex gap-4">
+              <input
+                ref={doc_ref}
+                defaultValue={"Report"}
+                placeholder="Enter the name of your report"
+                className="p-2 rounded-xl text-center"
+              />
+              <select
+                id="types"
+                name="types"
+                className="w-full bg-white font-bold flex-grow w-fit rounded-md pl-3 pr-4 py-3"
+                onChange={(e) => setOutputFormat(e.target.value)}
+                defaultValue={outputFormat}
+              >
+                <option value="COLLEGE">VTU</option>
+                <option value="IEEE">IEEE</option>
+              </select>
+            </div>
             <ButtonYellow2
               onClick={generateReport}
               content={"Give Me My Report!!!"}

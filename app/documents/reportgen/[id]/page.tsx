@@ -27,6 +27,7 @@ export default function Page({ params }: { params: { id: number } }) {
   const [displayRow, setDisplayRow] = useState(80);
   const [documentID, setDocumentID] = useState<string | null>(null);
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
+  const [outputFormat, setOutputFormat] = useState("COLLEGE");
 
   /* console.log */(pages)
 
@@ -69,6 +70,8 @@ export default function Page({ params }: { params: { id: number } }) {
   }, []);
 
   const props = {
+    outputFormat,
+    setOutputFormat,
     currentView,
     setCurrentView,
     pages,
