@@ -80,10 +80,10 @@ export default function ViewPages(props: ReportGenCommonProps) {
         return IEEE;
     }
   }
-  async function generateReport() {
+  async function generateReport(outputFormat: string) {
     if (!doc_ref.current || !doc_ref.current.value) return;
     // console.log(pages);
-    let inputJi = `${getCurrentTemplate("COLLEGE")}\n${PageToJi(
+    let inputJi = `${getCurrentTemplate(outputFormat)}\n${PageToJi(
       pages
     )}\n\\end{document}`;
     setOutputData(inputJi);
@@ -183,7 +183,7 @@ export default function ViewPages(props: ReportGenCommonProps) {
               </select>
             </div>
             <ButtonYellow2
-              onClick={generateReport}
+              onClick={() => generateReport(outputFormat)}
               content={"Give Me My Report!!!"}
             />
           </div>
