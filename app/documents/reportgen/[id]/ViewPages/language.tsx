@@ -9,36 +9,54 @@ import {
   VectorElement,
 } from "@/app/types/types";
 
-function parse_title(title: ScalarElement | VectorElement): string {
+function parse_title(
+  title: ScalarElement | VectorElement,
+  outputFormat: string
+): string {
   let markup = `\\uppercase{${title.content}}\n`;
   return markup;
 }
 
-function parse_subtitle(subtitle: ScalarElement | VectorElement) {
+function parse_subtitle(
+  subtitle: ScalarElement | VectorElement,
+  outputFormat: string
+) {
   const markup = `\\title{${subtitle.content}}\n`;
   return markup;
 }
 
-function parse_heading(heading: ScalarElement | VectorElement) {
+function parse_heading(
+  heading: ScalarElement | VectorElement,
+  outputFormat: string
+) {
   const markup = `\\uppercase{\\chapter{${heading.content}}}\n`;
   return markup;
 }
 
-function parse_author(author: ScalarElement | VectorElement) {
+function parse_author(
+  author: ScalarElement | VectorElement,
+  outputFormat: string
+) {
   const markup = `\\hfill \\textbf{${author.content}}\\par\n`;
   return markup;
 }
-function parse_date(date: ScalarElement | VectorElement) {
+function parse_date(date: ScalarElement | VectorElement, outputFormat: string) {
   const markup = `\\hfill \\textbf{${date.content}}\\par\n`;
   return markup;
 }
-function parse_paragraphs(paragraphs: ScalarElement | VectorElement) {
+function parse_paragraphs(
+  paragraphs: ScalarElement | VectorElement,
+  outputFormat: string
+) {
   if (!Array.isArray(paragraphs.content))
     paragraphs.content = paragraphs.content.split("\n");
   const markup = `${paragraphs.content.join("\n\n")}\n`;
   return markup;
 }
-function parse_code(paragraphs: ScalarElement | VectorElement) {
+function parse_code(
+  paragraphs: ScalarElement | VectorElement,
+  outputFormat: string
+) {
   if (!Array.isArray(paragraphs.content))
     paragraphs.content = paragraphs.content.split("\n");
   const content = paragraphs.content.join("\n");
@@ -46,7 +64,10 @@ function parse_code(paragraphs: ScalarElement | VectorElement) {
 
   return markup;
 }
-function parse_items(items: ScalarElement | VectorElement) {
+function parse_items(
+  items: ScalarElement | VectorElement,
+  outputFormat: string
+) {
   if (!Array.isArray(items.content)) items.content = [items.content];
   let markup = "\\begin{itemize}\n";
   items.content.map((item) => {
@@ -55,7 +76,10 @@ function parse_items(items: ScalarElement | VectorElement) {
   markup += "\\end{itemize}\n";
   return markup;
 }
-function parse_figures(figures: ScalarElement | VectorElement): string {
+function parse_figures(
+  figures: ScalarElement | VectorElement,
+  outputFormat: string
+): string {
   let markup = "";
   if (!Array.isArray(figures.content))
     figures.content = figures.content.split("\n");
@@ -74,7 +98,10 @@ function parse_figures(figures: ScalarElement | VectorElement): string {
 
   return markup;
 }
-function parse_citations(citations: ScalarElement | VectorElement): string {
+function parse_citations(
+  citations: ScalarElement | VectorElement,
+  outputFormat: string
+): string {
   let markup = "\\begin{thebibliography}{100}\n";
 
   if (!Array.isArray(citations.content))
@@ -86,28 +113,31 @@ function parse_citations(citations: ScalarElement | VectorElement): string {
   markup += "\\end{thebibliography}\n";
   return markup;
 }
-function getElementBasedContent(element: PdfElement): string {
+function getElementBasedContent(
+  element: PdfElement,
+  outputFormat: string
+): string {
   switch (Number(element.element.type)) {
     case ElementType.TITLE:
-      return parse_title(element.element);
+      return parse_title(element.element, outputFormat);
     case ElementType.SUBTITLE:
-      return parse_subtitle(element.element);
+      return parse_subtitle(element.element, outputFormat);
     case ElementType.HEADING:
-      return parse_heading(element.element);
+      return parse_heading(element.element, outputFormat);
     case ElementType.AUTHOR:
-      return parse_author(element.element);
+      return parse_author(element.element, outputFormat);
     case ElementType.DATE:
-      return parse_date(element.element);
+      return parse_date(element.element, outputFormat);
     case ElementType.PARAGRAPHS:
-      return parse_paragraphs(element.element);
+      return parse_paragraphs(element.element, outputFormat);
     case ElementType.CODE:
-      return parse_code(element.element);
+      return parse_code(element.element, outputFormat);
     case ElementType.ITEMS:
-      return parse_items(element.element);
+      return parse_items(element.element, outputFormat);
     case ElementType.FIGURES:
-      return parse_figures(element.element);
+      return parse_figures(element.element, outputFormat);
     case ElementType.CITATIONS:
-      return parse_citations(element.element);
+      return parse_citations(element.element, outputFormat);
     case ElementType.DIFFERENCES:
       return ``;
     case ElementType.INVALID:
@@ -134,7 +164,7 @@ export function PageToJi(pages: Pages, outputFormat: string): string {
     createChapterHeader(output, outputFormat, page);
     page.elements.forEach((element) => {
       console.log("The content is: ", element.element.content);
-      const content = getElementBasedContent(element);
+      const content = getElementBasedContent(element, outputFormat);
       // console.log(content);
       output.push(content);
     });
