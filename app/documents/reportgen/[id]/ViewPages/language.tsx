@@ -2,6 +2,7 @@ import getElementName from "@/app/types/elements";
 import {
   ElementParentType,
   ElementType,
+  Page,
   Pages,
   PdfElement,
   ScalarElement,
@@ -115,12 +116,22 @@ function getElementBasedContent(element: PdfElement): string {
       return ``;
   }
 }
-export function PageToJi(pages: Pages): string {
+function createChapterHeader(
+  output: string[],
+  outputFormat: string,
+  page: Page
+) {
+  if (outputFormat == "COLLEGE") {
+    output.push("\\newpage");
+    output.push(`\\uppercase{\\chapter{${page.name}}}`);
+  }
+}
+
+export function PageToJi(pages: Pages, outputFormat: string): string {
   const output: string[] = [];
 
   pages.forEach((page, index) => {
-    output.push("\\newpage");
-    output.push(`\\uppercase{\\chapter{${page.name}}}`);
+    createChapterHeader(output, outputFormat, page);
     page.elements.forEach((element) => {
       console.log("The content is: ", element.element.content);
       const content = getElementBasedContent(element);

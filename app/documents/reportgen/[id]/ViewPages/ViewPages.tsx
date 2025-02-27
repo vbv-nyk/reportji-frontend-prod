@@ -84,7 +84,8 @@ export default function ViewPages(props: ReportGenCommonProps) {
     if (!doc_ref.current || !doc_ref.current.value) return;
     // console.log(pages);
     let inputJi = `${getCurrentTemplate(outputFormat)}\n${PageToJi(
-      pages
+      pages,
+      outputFormat
     )}\n\\end{document}`;
     setOutputData(inputJi);
     setDocumentID(doc_ref.current.value);
