@@ -13,7 +13,7 @@ function parse_title(
   title: ScalarElement | VectorElement,
   outputFormat: string
 ): string {
-  let markup = `\\uppercase{${title.content}}\n`;
+  let markup = `\\section{${title.content}}\n`;
   return markup;
 }
 
@@ -21,7 +21,7 @@ function parse_subtitle(
   subtitle: ScalarElement | VectorElement,
   outputFormat: string
 ) {
-  const markup = `\\title{${subtitle.content}}\n`;
+  const markup = `\\subsection{${subtitle.content}}\n`;
   return markup;
 }
 
@@ -29,8 +29,13 @@ function parse_heading(
   heading: ScalarElement | VectorElement,
   outputFormat: string
 ) {
-  const markup = `\\uppercase{\\chapter{${heading.content}}}\n`;
-  return markup;
+  switch (outputFormat) {
+    case "IEEE":
+      return parse_title(heading, outputFormat);
+    default:
+      const markup = `\\uppercase{\\chapter{${heading.content}}}\n`;
+      return markup;
+  }
 }
 
 function parse_author(
