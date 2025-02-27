@@ -81,28 +81,60 @@ function parse_items(
   markup += "\\end{itemize}\n";
   return markup;
 }
-function parse_figures(
-  figures: ScalarElement | VectorElement,
-  outputFormat: string
-): string {
+
+export function parse_figures(figures: ScalarElement | VectorElement, outputFormat: string): string {
   let markup = "";
-  if (!Array.isArray(figures.content))
-    figures.content = figures.content.split("\n");
-  if (figures.content.length > 1) {
-    markup += "\\begin{figure}[h]\n\\centering\n";
-    for (let i = 0; i < figures.content.length; i++) {
-      markup += `\\begin{subfigure}[b]{0.45\\textwidth}\n\\centering\n\\includegraphics{sample.png}\n\\caption{${figures.content[i]}}\n\\end{subfigure}\n`;
-    }
-    markup += `\\caption{${figures.content[0]}}\n`;
-    markup += "\\end{figure}\n";
-  } else {
-    markup += "\\begin{figure}[h]\n\\centering\n";
-    markup += `\\centering\n\\includegraphics{sample.png}\n\\caption{${figures.content[0]}}\n`;
-    markup += "\\end{figure}\n";
+  if (!Array.isArray(figures.content)) {
+      figures.content = figures.content.split("\n");
+  }
+
+  switch (outputFormat) {
+      case "IEEE":
+          markup = parseFiguresIEEE(figures);
+          break;
+      case "COLLEGE":
+          markup = parseFiguresCollege(figures);
+          break;
+      default:
+          throw new Error("Unsupported output format");
   }
 
   return markup;
 }
+
+function parseFiguresIEEE(figures: ScalarElement | VectorElement): string {
+  let markup = "\\begin{figure}[h]\n\\centering\n";
+  if (figures.content.length > 1) {
+      for (let i = 0; i < figures.content.length; i++) {
+          markup += `\\subfloat[${figures.content[i]}]{%\n`;
+          markup += `    \\includegraphics[width=0.45\\linewidth]{sample.png}\n`;
+          markup += `    \\label{fig:sub${i + 1}}\n`;
+          markup += `}\n`;
+      }
+      markup += `\\caption{${figures.content[0]}}\n`;
+  } else {
+      markup += `\\includegraphics{sample.png}\n\\caption{${figures.content[0]}}\n`;
+  }
+  markup += "\\end{figure}\n";
+  return markup;
+}
+
+function parseFiguresCollege(figures: ScalarElement | VectorElement): string {
+  let markup = "\\begin{figure}[h]\n\\centering\n";
+  if (figures.content.length > 1) {
+      for (let i = 0; i < figures.content.length; i++) {
+          markup += `\\begin{subfigure}[b]{0.45\\textwidth}\n\\centering\n`;
+          markup += `\\includegraphics{sample.png}\n\\caption{${figures.content[i]}}\n`;
+          markup += "\\end{subfigure}\n";
+      }
+      markup += `\\caption{${figures.content[0]}}\n`;
+  } else {
+      markup += `\\includegraphics{sample.png}\n\\caption{${figures.content[0]}}\n`;
+  }
+  markup += "\\end{figure}\n";
+  return markup;
+}
+
 function parse_citations(
   citations: ScalarElement | VectorElement,
   outputFormat: string

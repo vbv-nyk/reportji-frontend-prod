@@ -4,6 +4,8 @@ export const IEEE = `
 \\usepackage{graphicx, amsmath, amssymb, hyperref}
 \\usepackage{listings, xcolor}
 \\usepackage{float}
+\\usepackage{subfig} % Add this in the preamble
+
 
 % Define colors
 \\definecolor{myorange}{RGB}{131,59,12}
