@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { CurrentView } from "./types";
 import ButtonWhite1 from "@/app/Components/Buttons/ButtonWhite1";
 import ButtonYellow1 from "@/app/Components/Buttons/ButtonYellow1";
+import { edit } from "ace-builds";
 
 const RETRIEVE_PDF = gql`
   mutation CreatePDF($texFile: String!, $docID: Int!) {
@@ -29,7 +30,13 @@ export default function Step3(props: ReportGenCommonProps) {
   const [getPDF, { loading, error }] = useMutation(RETRIEVE_PDF);
   const [pdfData, setPdfData] = useState<string>("");
   const [copyButtonContent, setCopyButtonContent] = useState("Copy");
-  const { outputData, setCurrentView, documentID } = props;
+  const {
+    outputData,
+    setCurrentView,
+    documentID,
+    outputFormat,
+    setOutputFormat,
+  } = props;
   async function retrievePDF() {
     try {
       const data = await getPDF({
@@ -38,7 +45,12 @@ export default function Step3(props: ReportGenCommonProps) {
       const base64PDF = data.data.CreatePDF.pdf;
       // console.log(data);
       const moveToHistory = {
-        [documentID || "Unnamed"]: { url: base64PDF, pages, documentID, date: Date.now() },
+        [documentID || "Unnamed"]: {
+          url: base64PDF,
+          pages,
+          documentID,
+          date: Date.now(),
+        },
       };
       if (documentID) {
         const currentHistory = JSON.parse(
@@ -89,18 +101,15 @@ export default function Step3(props: ReportGenCommonProps) {
               onChange={updateContent}
             />
           </div>
-          <div className="flex justify-between">
-            <div className="flex gap-2 items-center">
-              <ButtonYellow2 content={"Go Back"} onClick={editPages} />
-              <ButtonYellow2 content={"Run Code"} onClick={retrievePDF} />
-              <ClipLoader
-                color={"#ffffff"}
-                loading={loading}
-                size={20}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
-            </div>
+          <div className="flex gap-2 items-center">
+            <ClipLoader
+              color={"#ffffff"}
+              loading={loading}
+              size={20}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+            <ButtonYellow2 content={"Back"} onClick={editPages} />
             <ButtonYellow2
               content={copyButtonContent}
               onClick={() => {
@@ -111,19 +120,30 @@ export default function Step3(props: ReportGenCommonProps) {
                 }, 2000);
               }}
             />
+            <select
+              id="types"
+              name="types"
+              className="w-full bg-white font-bold flex-grow w-fit rounded-md pl-3 pr-4 py-3"
+              onChange={(e) => setOutputFormat(e.target.value)}
+              defaultValue={outputFormat}
+            >
+              <option value="COLLEGE">VTU</option>
+              <option value="IEEE">IEEE</option>
+            </select>
+            <ButtonYellow2 content={"Run"} onClick={retrievePDF} />
           </div>
         </div>
+      </div>
 
-        <div className="h-screen">
-          {pdfData.length > 0 && (
-            <object
-              data={`${pdfData}`}
-              // type="application/pdf"
-              width="100%"
-              height="100%"
-            ></object>
-          )}
-        </div>
+      <div className="h-screen">
+        {pdfData.length > 0 && (
+          <object
+            data={`${pdfData}`}
+            // type="application/pdf"
+            width="100%"
+            height="100%"
+          ></object>
+        )}
       </div>
     </div>
   );
