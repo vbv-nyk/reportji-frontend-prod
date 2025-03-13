@@ -120,7 +120,7 @@ export default function Step3(props: ReportGenCommonProps) {
                 }, 2000);
               }}
             />
-            <select
+            {/* <select
               id="types"
               name="types"
               className="w-full bg-white font-bold flex-grow w-fit rounded-md pl-3 pr-4 py-3"
@@ -129,7 +129,7 @@ export default function Step3(props: ReportGenCommonProps) {
             >
               <option value="COLLEGE">VTU</option>
               <option value="IEEE">IEEE</option>
-            </select>
+            </select> */}
             <ButtonYellow2 content={"Run"} onClick={retrievePDF} />
           </div>
         </div>
