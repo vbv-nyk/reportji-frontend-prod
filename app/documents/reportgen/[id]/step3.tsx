@@ -14,6 +14,7 @@ import { CurrentView } from "./types";
 import ButtonWhite1 from "@/app/Components/Buttons/ButtonWhite1";
 import ButtonYellow1 from "@/app/Components/Buttons/ButtonYellow1";
 import { edit } from "ace-builds";
+import { DEVELOPMENT } from "@/app/constants";
 
 const RETRIEVE_PDF = gql`
   mutation CreatePDF($texFile: String!, $docID: Int!) {
@@ -64,7 +65,9 @@ export default function Step3(props: ReportGenCommonProps) {
           })
         );
       }
-      setPdfData(`${base64PDF}?time=${Date.now()}`);
+      const prefix = DEVELOPMENT ? "data:application/pdf;base64," : "";
+      const suffix = DEVELOPMENT ? "" : `?time=${Date.now()}`;
+      setPdfData(`${prefix}${base64PDF}${suffix}`);
     } catch (e) {
       console.error("Error occured", e);
     }
@@ -101,25 +104,28 @@ export default function Step3(props: ReportGenCommonProps) {
               onChange={updateContent}
             />
           </div>
-          <div className="flex gap-2 items-center">
-            <ClipLoader
-              color={"#ffffff"}
-              loading={loading}
-              size={20}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-            <ButtonYellow2 content={"Back"} onClick={editPages} />
-            <ButtonYellow2
-              content={copyButtonContent}
-              onClick={() => {
-                navigator.clipboard.writeText(outputData);
-                setCopyButtonContent("Copied");
-                setTimeout(() => {
-                  setCopyButtonContent("Copy");
-                }, 2000);
-              }}
-            />
+          <div className="flex justify-between">
+            <div className="flex gap-2 items-center">
+              <ClipLoader
+                color={"#ffffff"}
+                loading={loading}
+                size={20}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+              <ButtonYellow2 content={"Back"} onClick={editPages} />
+              <ButtonYellow2
+                content={copyButtonContent}
+                onClick={() => {
+                  navigator.clipboard.writeText(outputData);
+                  setCopyButtonContent("Copied");
+                  setTimeout(() => {
+                    setCopyButtonContent("Copy");
+                  }, 2000);
+                }}
+              />
+              <ButtonYellow2 content={"Run"} onClick={retrievePDF} />
+            </div>
             {/* <select
               id="types"
               name="types"
@@ -130,7 +136,6 @@ export default function Step3(props: ReportGenCommonProps) {
               <option value="COLLEGE">VTU</option>
               <option value="IEEE">IEEE</option>
             </select> */}
-            <ButtonYellow2 content={"Run"} onClick={retrievePDF} />
           </div>
         </div>
       </div>
@@ -138,7 +143,7 @@ export default function Step3(props: ReportGenCommonProps) {
       <div className="h-screen">
         {pdfData.length > 0 && (
           <object
-            data={`${pdfData}`}
+            data={pdfData}
             // type="application/pdf"
             width="100%"
             height="100%"

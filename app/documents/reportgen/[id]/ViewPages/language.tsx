@@ -154,6 +154,13 @@ function getElementBasedContent(
   element: PdfElement,
   outputFormat: string
 ): string {
+  
+  /* 
+    Element contains (Element type, data, and it contains whether it is vector a scalar) 
+    Primitive or Derived
+    Sentence "" (scalar)
+    ["", ""] (vector)
+  */
   switch (Number(element.element.type)) {
     case ElementType.TITLE:
       return parse_title(element.element, outputFormat);
