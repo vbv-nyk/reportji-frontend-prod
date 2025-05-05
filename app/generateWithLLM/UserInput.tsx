@@ -42,7 +42,7 @@ function UserInput() {
   }
   function saveCurrentPage() {}
   return (
-    <div className="flex gap-4 flex-col bg-[#040e18]">
+    <div className="flex gap-4 h-screen overflow-y-auto flex-col bg-[#040e18]">
       <div className=" py-2 bg-[#01162B] flex items-center justify-between px-8">
         <Logo2 />
         <Navbar />
@@ -123,7 +123,11 @@ function UserInput() {
               </>
             )}
 
-            {errorMSG && <div className="text-center text-red-500 font-extrabold">{errorMSG} :\</div>}
+            {errorMSG && (
+              <div className="text-center text-red-500 font-extrabold">
+                {errorMSG} :\
+              </div>
+            )}
           </div>
         </div>
       </div>
