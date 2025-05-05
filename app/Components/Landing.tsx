@@ -7,7 +7,7 @@ import { BACKEND_URL } from "../constants";
 
 export default function Landing() {
   return (
-    <div className="flex flex-col bg-[#01162B] h-screen max-h-screen">
+    <div className="flex flex-col bg-[#01162B] h-screen overflow-y-scroll">
       <div className="pt-6 flex h-max items-center justify-around">
         <Logo2 />
         <Navbar />
