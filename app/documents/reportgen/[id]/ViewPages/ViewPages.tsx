@@ -115,10 +115,10 @@ export default function ViewPages(props: ReportGenCommonProps) {
                     {...childProvided.dragHandleProps}
                     ref={childProvided.innerRef}
                     key={index}
-                    className="flex border-black border-2 w-full bg-gray-300 rounded-lg px-4 py-2 justify-between items-center"
+                    className="flex border-black flex-wrap border-2 w-full bg-gray-300 rounded-lg px-4 py-2 justify-between items-center"
                   >
                     <div className="text-md whitespace-nowrap">{page.name}</div>
-                    <div className="flex gap-4 ">
+                    <div className="flex flex-wrap gap-4 ">
                       <ButtonYellow2
                         content={"Edit"}
                         onClick={() => {
@@ -161,11 +161,11 @@ export default function ViewPages(props: ReportGenCommonProps) {
           }}
         </Droppable>
       </DragDropContext>
-      <div className="flex flex-row items-start justify-between gap-4">
+      <div className="flex flex-wrap flex-row items-start justify-between gap-4">
         <ButtonYellow2 onClick={newChapter} content={"Add Page"} />
         {pages.length != 0 && (
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-4">
+          <div className="flex flex-wrap flex-col gap-2">
+            <div className="flex flex-wrap gap-4">
               <input
                 ref={doc_ref}
                 defaultValue={"Report"}
@@ -175,7 +175,7 @@ export default function ViewPages(props: ReportGenCommonProps) {
               <select
                 id="types"
                 name="types"
-                className="w-full bg-white font-bold flex-grow w-fit rounded-md pl-3 pr-4 py-3"
+                className="bg-white font-bold w-fit rounded-md pl-3 pr-4 py-3"
                 onChange={(e) => setOutputFormat(e.target.value)}
                 defaultValue={outputFormat}
               >
@@ -184,8 +184,8 @@ export default function ViewPages(props: ReportGenCommonProps) {
               </select>
             </div>
             <ButtonYellow2
-              onClick={() => generateReport(outputFormat)}
               content={"Give Me My Report!!!"}
+              onClick={() => generateReport(outputFormat)}
             />
           </div>
         )}
