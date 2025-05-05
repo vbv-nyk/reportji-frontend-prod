@@ -115,9 +115,9 @@ export default function ViewPages(props: ReportGenCommonProps) {
                     {...childProvided.dragHandleProps}
                     ref={childProvided.innerRef}
                     key={index}
-                    className="flex border-black flex-wrap border-2 w-full bg-gray-300 rounded-lg px-4 py-2 justify-between items-center"
+                    className="flex gap-2 border-black flex-wrap border-2 w-full bg-gray-300 rounded-lg px-4 py-2 justify-between items-center"
                   >
-                    <div className="text-md whitespace-nowrap">{page.name}</div>
+                    <div className="text-md whitespace-nowrap min-w-[250px]">{page.name}</div>
                     <div className="flex flex-wrap gap-4 ">
                       <ButtonYellow2
                         content={"Edit"}
